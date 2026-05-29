@@ -1,5 +1,16 @@
 // Trigger watch reload
-import { Controller, Post, Body, UseGuards, Delete, Param, Get, Patch, Put, Res } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Delete,
+  Param,
+  Get,
+  Patch,
+  Put,
+  Res,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { AiChatService } from './ai-chat.service';

@@ -101,6 +101,21 @@ export class ChatResponseDto {
   error?: string;
 
   @ApiPropertyOptional({
+    description: 'Processing status: processing | completed | error',
+  })
+  status?: string;
+
+  @ApiPropertyOptional({
+    description: 'Conversation ID for polling',
+  })
+  conversationId?: string;
+
+  @ApiPropertyOptional({
+    description: 'Assistant message ID for polling',
+  })
+  messageId?: string;
+
+  @ApiPropertyOptional({
     description: 'Tool executions that occurred during this chat',
     type: [ToolExecutionDto],
   })

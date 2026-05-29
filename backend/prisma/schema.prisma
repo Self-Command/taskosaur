@@ -1500,8 +1500,9 @@ model Conversation {
 model ChatMessage {
   id               String       @id @default(uuid()) @db.Uuid
   role             String       // "user", "assistant", or "system"
-  content          String       @db.Text
+  content          String       @default("") @db.Text
   toolExecutions   Json?        @map("tool_executions") // MCP tool execution records for assistant messages
+  status           String       @default("completed") // pending | streaming | completed | error
   conversationId   String       @map("conversation_id") @db.Uuid
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   createdAt      DateTime     @default(now()) @map("created_at")

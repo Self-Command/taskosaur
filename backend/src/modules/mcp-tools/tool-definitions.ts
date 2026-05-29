@@ -160,8 +160,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'create_project',
-    description:
-      'Create a new project in a workspace. / 在工作区中创建新项目。',
+    description: 'Create a new project in a workspace. / 在工作区中创建新项目。',
     input_schema: {
       type: 'object',
       properties: {
@@ -196,8 +195,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'update_project',
-    description:
-      'Update an existing project. Provide projectId and fields to change. / 更新项目。',
+    description: 'Update an existing project. Provide projectId and fields to change. / 更新项目。',
     input_schema: {
       type: 'object',
       properties: {
@@ -225,8 +223,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'delete_project',
-    description:
-      'Delete a project permanently. / 永久删除项目。',
+    description: 'Delete a project permanently. / 永久删除项目。',
     input_schema: {
       type: 'object',
       properties: {
@@ -247,9 +244,15 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
         organizationId: { type: 'string', description: 'Organization ID (required) / 组织 ID' },
         projectId: { type: 'string', description: 'Filter by project ID / 按项目 ID 筛选' },
         workspaceId: { type: 'string', description: 'Filter by workspace ID / 按工作区 ID 筛选' },
-        priorities: { type: 'string', description: 'Comma-separated: LOWEST,LOW,MEDIUM,HIGH,HIGHEST / 优先级' },
+        priorities: {
+          type: 'string',
+          description: 'Comma-separated: LOWEST,LOW,MEDIUM,HIGH,HIGHEST / 优先级',
+        },
         statuses: { type: 'string', description: 'Comma-separated status IDs / 状态 ID' },
-        types: { type: 'string', description: 'Comma-separated: TASK,BUG,STORY,EPIC,SUBTASK / 任务类型' },
+        types: {
+          type: 'string',
+          description: 'Comma-separated: TASK,BUG,STORY,EPIC,SUBTASK / 任务类型',
+        },
         search: { type: 'string', description: 'Search in title/description / 搜索标题/描述' },
         page: { type: 'number', description: 'Page number (default 1) / 页码' },
         limit: { type: 'number', description: 'Items per page (default 20) / 每页条数' },
@@ -295,12 +298,26 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
         startDate: { type: 'string', description: 'Start date (ISO 8601) / 开始日期' },
         dueDate: { type: 'string', description: 'Due date (ISO 8601) / 截止日期' },
         storyPoints: { type: 'number', description: 'Story points / 故事点' },
-        originalEstimate: { type: 'number', description: 'Time estimate in minutes / 时间估计(分钟)' },
-        remainingEstimate: { type: 'number', description: 'Remaining estimate in minutes / 剩余估计' },
+        originalEstimate: {
+          type: 'number',
+          description: 'Time estimate in minutes / 时间估计(分钟)',
+        },
+        remainingEstimate: {
+          type: 'number',
+          description: 'Remaining estimate in minutes / 剩余估计',
+        },
         sprintId: { type: 'string', description: 'Sprint ID (UUID) / 迭代 ID' },
         parentTaskId: { type: 'string', description: 'Parent task ID for subtasks / 父任务 ID' },
-        assigneeIds: { type: 'array', items: { type: 'string' }, description: 'Assignee user IDs / 指派用户 ID' },
-        reporterIds: { type: 'array', items: { type: 'string' }, description: 'Reporter user IDs / 报告人 ID' },
+        assigneeIds: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Assignee user IDs / 指派用户 ID',
+        },
+        reporterIds: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Reporter user IDs / 报告人 ID',
+        },
         customFields: { type: 'object', description: 'Custom fields JSON / 自定义字段' },
       },
       required: ['title', 'projectId', 'statusId'],
@@ -329,7 +346,11 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
         parentTaskId: { type: 'string' },
         assigneeIds: { type: 'array', items: { type: 'string' } },
         reporterIds: { type: 'array', items: { type: 'string' } },
-        labelIds: { type: 'array', items: { type: 'string' }, description: 'Label IDs to set (replaces all existing labels) / 要设置的标签 ID' },
+        labelIds: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Label IDs to set (replaces all existing labels) / 要设置的标签 ID',
+        },
         customFields: { type: 'object' },
       },
       required: ['taskId'],
@@ -337,8 +358,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'delete_task',
-    description:
-      'Delete a task permanently. / 永久删除任务。',
+    description: 'Delete a task permanently. / 永久删除任务。',
     input_schema: {
       type: 'object',
       properties: {
@@ -349,8 +369,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'update_task_status',
-    description:
-      'Change a task status. Requires taskId and statusId. / 更新任务状态。',
+    description: 'Change a task status. Requires taskId and statusId. / 更新任务状态。',
     input_schema: {
       type: 'object',
       properties: {
@@ -362,8 +381,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'update_task_priority',
-    description:
-      'Change a task priority. / 更新任务优先级。',
+    description: 'Change a task priority. / 更新任务优先级。',
     input_schema: {
       type: 'object',
       properties: {
@@ -381,8 +399,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== TASK COMMENT TOOLS ==========
   {
     name: 'list_task_comments',
-    description:
-      'List comments for a task, newest first. / 列出任务评论，按最新排序。',
+    description: 'List comments for a task, newest first. / 列出任务评论，按最新排序。',
     input_schema: {
       type: 'object',
       properties: {
@@ -402,7 +419,10 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
       properties: {
         taskId: { type: 'string', description: 'Task ID (UUID) / 任务 ID' },
         content: { type: 'string', description: 'Comment content (Markdown) / 评论内容' },
-        parentCommentId: { type: 'string', description: 'Parent comment ID for threaded replies / 父评论 ID（用于回复）' },
+        parentCommentId: {
+          type: 'string',
+          description: 'Parent comment ID for threaded replies / 父评论 ID（用于回复）',
+        },
       },
       required: ['taskId', 'content'],
     },
@@ -423,13 +443,18 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'add_task_dependency',
-    description:
-      'Create a dependency between two tasks (A blocks B). / 创建任务间的依赖关系。',
+    description: 'Create a dependency between two tasks (A blocks B). / 创建任务间的依赖关系。',
     input_schema: {
       type: 'object',
       properties: {
-        dependentTaskId: { type: 'string', description: 'The task being blocked (UUID) / 被阻塞的任务 ID' },
-        blockingTaskId: { type: 'string', description: 'The task that blocks it (UUID) / 阻塞任务 ID' },
+        dependentTaskId: {
+          type: 'string',
+          description: 'The task being blocked (UUID) / 被阻塞的任务 ID',
+        },
+        blockingTaskId: {
+          type: 'string',
+          description: 'The task that blocks it (UUID) / 阻塞任务 ID',
+        },
         type: {
           type: 'string',
           enum: ['BLOCKS', 'FINISH_START', 'START_START', 'FINISH_FINISH', 'START_FINISH'],
@@ -441,13 +466,18 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'remove_task_dependency',
-    description:
-      'Remove a dependency between two tasks. / 移除任务间的依赖关系。',
+    description: 'Remove a dependency between two tasks. / 移除任务间的依赖关系。',
     input_schema: {
       type: 'object',
       properties: {
-        dependentTaskId: { type: 'string', description: 'The blocked task ID (UUID) / 被阻塞的任务 ID' },
-        blockingTaskId: { type: 'string', description: 'The blocking task ID (UUID) / 阻塞任务 ID' },
+        dependentTaskId: {
+          type: 'string',
+          description: 'The blocked task ID (UUID) / 被阻塞的任务 ID',
+        },
+        blockingTaskId: {
+          type: 'string',
+          description: 'The blocking task ID (UUID) / 阻塞任务 ID',
+        },
       },
       required: ['dependentTaskId', 'blockingTaskId'],
     },
@@ -456,8 +486,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== SPRINT TOOLS ==========
   {
     name: 'list_sprints',
-    description:
-      'List sprints for a project. / 列出项目的迭代。',
+    description: 'List sprints for a project. / 列出项目的迭代。',
     input_schema: {
       type: 'object',
       properties: {
@@ -468,8 +497,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'create_sprint',
-    description:
-      'Create a new sprint in a project. / 在项目中创建新迭代。',
+    description: 'Create a new sprint in a project. / 在项目中创建新迭代。',
     input_schema: {
       type: 'object',
       properties: {
@@ -484,15 +512,18 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'update_sprint',
-    description:
-      'Update an existing sprint. / 更新迭代。',
+    description: 'Update an existing sprint. / 更新迭代。',
     input_schema: {
       type: 'object',
       properties: {
         sprintId: { type: 'string', description: 'Sprint ID (UUID) / 迭代 ID' },
         name: { type: 'string', description: 'New name / 新名称' },
         goal: { type: 'string', description: 'New goal / 新目标' },
-        status: { type: 'string', enum: ['PLANNING', 'ACTIVE', 'COMPLETED', 'CANCELLED'], description: 'Sprint status / 迭代状态' },
+        status: {
+          type: 'string',
+          enum: ['PLANNING', 'ACTIVE', 'COMPLETED', 'CANCELLED'],
+          description: 'Sprint status / 迭代状态',
+        },
         startDate: { type: 'string', description: 'Start date / 开始日期' },
         endDate: { type: 'string', description: 'End date / 结束日期' },
       },
@@ -501,8 +532,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'delete_sprint',
-    description:
-      'Delete a sprint permanently. / 永久删除迭代。',
+    description: 'Delete a sprint permanently. / 永久删除迭代。',
     input_schema: {
       type: 'object',
       properties: {
@@ -515,8 +545,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== LABEL TOOLS ==========
   {
     name: 'list_labels',
-    description:
-      'List labels for a project. / 列出项目的标签。',
+    description: 'List labels for a project. / 列出项目的标签。',
     input_schema: {
       type: 'object',
       properties: {
@@ -527,8 +556,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'create_label',
-    description:
-      'Create a new label in a project. / 在项目中创建新标签。',
+    description: 'Create a new label in a project. / 在项目中创建新标签。',
     input_schema: {
       type: 'object',
       properties: {
@@ -542,8 +570,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'update_label',
-    description:
-      'Update an existing label. / 更新标签。',
+    description: 'Update an existing label. / 更新标签。',
     input_schema: {
       type: 'object',
       properties: {
@@ -557,8 +584,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'delete_label',
-    description:
-      'Delete a label permanently. / 永久删除标签。',
+    description: 'Delete a label permanently. / 永久删除标签。',
     input_schema: {
       type: 'object',
       properties: {
@@ -571,8 +597,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== WORKFLOW TOOLS ==========
   {
     name: 'list_workflows',
-    description:
-      'List all workflows in an organization. / 列出组织中所有工作流。',
+    description: 'List all workflows in an organization. / 列出组织中所有工作流。',
     input_schema: {
       type: 'object',
       properties: {
@@ -583,8 +608,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'get_workflow',
-    description:
-      'Get workflow details including its statuses. / 获取工作流详情（含状态列表）。',
+    description: 'Get workflow details including its statuses. / 获取工作流详情（含状态列表）。',
     input_schema: {
       type: 'object',
       properties: {
@@ -595,8 +619,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'list_status_transitions',
-    description:
-      'List allowed status transitions in a workflow. / 列出工作流中允许的状态转换。',
+    description: 'List allowed status transitions in a workflow. / 列出工作流中允许的状态转换。',
     input_schema: {
       type: 'object',
       properties: {
@@ -609,8 +632,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== STATUS TOOLS ==========
   {
     name: 'list_task_statuses',
-    description:
-      'List available task statuses for a workflow. / 列出工作流中可用的任务状态。',
+    description: 'List available task statuses for a workflow. / 列出工作流中可用的任务状态。',
     input_schema: {
       type: 'object',
       properties: {
@@ -635,8 +657,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'list_workspace_members',
-    description:
-      'List members of a workspace. / 列出工作区成员。',
+    description: 'List members of a workspace. / 列出工作区成员。',
     input_schema: {
       type: 'object',
       properties: {
@@ -647,22 +668,24 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'add_workspace_member',
-    description:
-      'Add a user to a workspace with a role. / 将用户添加到工作区。',
+    description: 'Add a user to a workspace with a role. / 将用户添加到工作区。',
     input_schema: {
       type: 'object',
       properties: {
         workspaceId: { type: 'string', description: 'Workspace ID (UUID) / 工作区 ID' },
         userId: { type: 'string', description: 'User ID (UUID) / 用户 ID' },
-        role: { type: 'string', enum: ['OWNER', 'MANAGER', 'MEMBER', 'VIEWER'], description: 'Role / 角色' },
+        role: {
+          type: 'string',
+          enum: ['OWNER', 'MANAGER', 'MEMBER', 'VIEWER'],
+          description: 'Role / 角色',
+        },
       },
       required: ['workspaceId', 'userId'],
     },
   },
   {
     name: 'remove_workspace_member',
-    description:
-      'Remove a user from a workspace. / 从工作区移除用户。',
+    description: 'Remove a user from a workspace. / 从工作区移除用户。',
     input_schema: {
       type: 'object',
       properties: {
@@ -674,22 +697,24 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'add_project_member',
-    description:
-      'Add a user to a project with a role. / 将用户添加到项目。',
+    description: 'Add a user to a project with a role. / 将用户添加到项目。',
     input_schema: {
       type: 'object',
       properties: {
         projectId: { type: 'string', description: 'Project ID (UUID) / 项目 ID' },
         userId: { type: 'string', description: 'User ID (UUID) / 用户 ID' },
-        role: { type: 'string', enum: ['OWNER', 'MANAGER', 'MEMBER', 'VIEWER'], description: 'Role (default MEMBER) / 角色' },
+        role: {
+          type: 'string',
+          enum: ['OWNER', 'MANAGER', 'MEMBER', 'VIEWER'],
+          description: 'Role (default MEMBER) / 角色',
+        },
       },
       required: ['projectId', 'userId'],
     },
   },
   {
     name: 'remove_project_member',
-    description:
-      'Remove a user from a project. / 从项目移除用户。',
+    description: 'Remove a user from a project. / 从项目移除用户。',
     input_schema: {
       type: 'object',
       properties: {
@@ -701,14 +726,17 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'update_project_member_role',
-    description:
-      'Change a project member role. / 更改项目成员角色。',
+    description: 'Change a project member role. / 更改项目成员角色。',
     input_schema: {
       type: 'object',
       properties: {
         projectId: { type: 'string', description: 'Project ID (UUID) / 项目 ID' },
         userId: { type: 'string', description: 'User ID (UUID) / 用户 ID' },
-        role: { type: 'string', enum: ['OWNER', 'MANAGER', 'MEMBER', 'VIEWER'], description: 'New role / 新角色' },
+        role: {
+          type: 'string',
+          enum: ['OWNER', 'MANAGER', 'MEMBER', 'VIEWER'],
+          description: 'New role / 新角色',
+        },
       },
       required: ['projectId', 'userId', 'role'],
     },
@@ -717,8 +745,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== CUSTOM FIELD TOOLS ==========
   {
     name: 'list_custom_fields',
-    description:
-      'List custom fields defined for an organization. / 列出组织定义的自定义字段。',
+    description: 'List custom fields defined for an organization. / 列出组织定义的自定义字段。',
     input_schema: {
       type: 'object',
       properties: {
@@ -729,8 +756,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'get_custom_field',
-    description:
-      'Get details of a specific custom field. / 获取特定自定义字段的详细信息。',
+    description: 'Get details of a specific custom field. / 获取特定自定义字段的详细信息。',
     input_schema: {
       type: 'object',
       properties: {
@@ -743,13 +769,15 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== TIME ENTRY TOOLS ==========
   {
     name: 'list_time_entries',
-    description:
-      'List time entries for a task or user. / 列出任务或用户的时间记录。',
+    description: 'List time entries for a task or user. / 列出任务或用户的时间记录。',
     input_schema: {
       type: 'object',
       properties: {
         taskId: { type: 'string', description: 'Filter by task ID (UUID) / 按任务 ID 筛选' },
-        projectId: { type: 'string', description: 'Filter tasks by project ID (UUID) / 按项目筛选所有任务' },
+        projectId: {
+          type: 'string',
+          description: 'Filter tasks by project ID (UUID) / 按项目筛选所有任务',
+        },
         page: { type: 'number', description: 'Page number (default 1) / 页码' },
         limit: { type: 'number', description: 'Items per page (default 20) / 每页条数' },
       },
@@ -757,8 +785,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'create_time_entry',
-    description:
-      'Log time spent on a task (in minutes). / 记录任务耗时（分钟）。',
+    description: 'Log time spent on a task (in minutes). / 记录任务耗时（分钟）。',
     input_schema: {
       type: 'object',
       properties: {
@@ -774,8 +801,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'delete_time_entry',
-    description:
-      'Delete a time entry permanently. / 永久删除时间记录。',
+    description: 'Delete a time entry permanently. / 永久删除时间记录。',
     input_schema: {
       type: 'object',
       properties: {
@@ -796,7 +822,11 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
         organizationId: { type: 'string', description: 'Filter by organization ID / 按组织筛选' },
         workspaceId: { type: 'string', description: 'Filter by workspace ID / 按工作区筛选' },
         projectId: { type: 'string', description: 'Filter by project ID / 按项目筛选' },
-        status: { type: 'string', enum: ['PENDING', 'ACCEPTED', 'DECLINED', 'EXPIRED'], description: 'Filter by status / 按状态筛选' },
+        status: {
+          type: 'string',
+          enum: ['PENDING', 'ACCEPTED', 'DECLINED', 'EXPIRED'],
+          description: 'Filter by status / 按状态筛选',
+        },
       },
     },
   },
@@ -820,8 +850,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== NOTIFICATION TOOLS ==========
   {
     name: 'list_notifications',
-    description:
-      'List notifications for the current user. / 列出当前用户的通知。',
+    description: 'List notifications for the current user. / 列出当前用户的通知。',
     input_schema: {
       type: 'object',
       properties: {
@@ -833,8 +862,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'mark_notification_read',
-    description:
-      'Mark a notification as read. / 将通知标记为已读。',
+    description: 'Mark a notification as read. / 将通知标记为已读。',
     input_schema: {
       type: 'object',
       properties: {
@@ -847,8 +875,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== RECURRING TASK TOOLS ==========
   {
     name: 'get_task_recurrence',
-    description:
-      'Get the recurrence configuration for a recurring task. / 获取任务重复配置。',
+    description: 'Get the recurrence configuration for a recurring task. / 获取任务重复配置。',
     input_schema: {
       type: 'object',
       properties: {
@@ -859,8 +886,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'disable_task_recurrence',
-    description:
-      'Stop a task from recurring. / 停止任务重复。',
+    description: 'Stop a task from recurring. / 停止任务重复。',
     input_schema: {
       type: 'object',
       properties: {
@@ -873,8 +899,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== PUBLIC TASK SHARE TOOLS ==========
   {
     name: 'list_task_shares',
-    description:
-      'List public share links for a task. / 列出任务的公开分享链接。',
+    description: 'List public share links for a task. / 列出任务的公开分享链接。',
     input_schema: {
       type: 'object',
       properties: {
@@ -885,21 +910,22 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'share_task_publicly',
-    description:
-      'Create a public share link for a task. / 创建任务的公开分享链接。',
+    description: 'Create a public share link for a task. / 创建任务的公开分享链接。',
     input_schema: {
       type: 'object',
       properties: {
         taskId: { type: 'string', description: 'Task ID (UUID) / 任务 ID' },
-        expiresAt: { type: 'string', description: 'Expiration date (ISO 8601, default 30 days) / 过期时间' },
+        expiresAt: {
+          type: 'string',
+          description: 'Expiration date (ISO 8601, default 30 days) / 过期时间',
+        },
       },
       required: ['taskId'],
     },
   },
   {
     name: 'revoke_task_share',
-    description:
-      'Revoke a public task share link. / 撤销公开任务分享链接。',
+    description: 'Revoke a public task share link. / 撤销公开任务分享链接。',
     input_schema: {
       type: 'object',
       properties: {
@@ -912,8 +938,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== TASK ATTACHMENT TOOLS ==========
   {
     name: 'list_task_attachments',
-    description:
-      'List file attachments for a task. / 列出任务的文件附件。',
+    description: 'List file attachments for a task. / 列出任务的文件附件。',
     input_schema: {
       type: 'object',
       properties: {
@@ -948,7 +973,8 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
       properties: {
         path: {
           type: 'string',
-          description: 'URL path to navigate to, e.g. /workspace-slug/project-slug / 要导航的 URL 路径',
+          description:
+            'URL path to navigate to, e.g. /workspace-slug/project-slug / 要导航的 URL 路径',
         },
       },
       required: ['path'],
@@ -958,8 +984,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== ORGANIZATION TOOLS ==========
   {
     name: 'list_organizations',
-    description:
-      'List all organizations the user belongs to. / 列出用户属于的所有组织。',
+    description: 'List all organizations the user belongs to. / 列出用户属于的所有组织。',
     input_schema: {
       type: 'object',
       properties: {},
@@ -967,8 +992,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'get_organization',
-    description:
-      'Get organization details by ID. / 根据ID获取组织详情。',
+    description: 'Get organization details by ID. / 根据ID获取组织详情。',
     input_schema: {
       type: 'object',
       properties: {
@@ -994,8 +1018,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'list_organization_members',
-    description:
-      'List all members of an organization. / 列出组织所有成员。',
+    description: 'List all members of an organization. / 列出组织所有成员。',
     input_schema: {
       type: 'object',
       properties: {
@@ -1008,14 +1031,17 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== WORKSPACE MEMBER EXTENDED ==========
   {
     name: 'update_workspace_member_role',
-    description:
-      'Change a workspace member role. / 更改工作区成员角色。',
+    description: 'Change a workspace member role. / 更改工作区成员角色。',
     input_schema: {
       type: 'object',
       properties: {
         workspaceId: { type: 'string', description: 'Workspace ID (UUID) / 工作区 ID' },
         userId: { type: 'string', description: 'User ID (UUID) / 用户 ID' },
-        role: { type: 'string', enum: ['OWNER', 'MANAGER', 'MEMBER', 'VIEWER'], description: 'New role / 新角色' },
+        role: {
+          type: 'string',
+          enum: ['OWNER', 'MANAGER', 'MEMBER', 'VIEWER'],
+          description: 'New role / 新角色',
+        },
       },
       required: ['workspaceId', 'userId', 'role'],
     },
@@ -1024,19 +1050,20 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== SETTINGS TOOLS ==========
   {
     name: 'list_settings',
-    description:
-      'List settings, optionally filtered by category. / 列出系统设置。',
+    description: 'List settings, optionally filtered by category. / 列出系统设置。',
     input_schema: {
       type: 'object',
       properties: {
-        category: { type: 'string', description: 'Filter by category, e.g. "general", "ai", "email" / 按类别筛选' },
+        category: {
+          type: 'string',
+          description: 'Filter by category, e.g. "general", "ai", "email" / 按类别筛选',
+        },
       },
     },
   },
   {
     name: 'get_setting',
-    description:
-      'Get a specific setting value by key. / 通过键获取设置值。',
+    description: 'Get a specific setting value by key. / 通过键获取设置值。',
     input_schema: {
       type: 'object',
       properties: {
@@ -1062,8 +1089,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== USER TOOLS EXTENDED ==========
   {
     name: 'list_users',
-    description:
-      'List users in an organization or workspace. / 列出组织或工作区中的用户。',
+    description: 'List users in an organization or workspace. / 列出组织或工作区中的用户。',
     input_schema: {
       type: 'object',
       properties: {
@@ -1075,8 +1101,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'get_user',
-    description:
-      'Get basic user profile by ID. / 通过 ID 获取用户基本信息。',
+    description: 'Get basic user profile by ID. / 通过 ID 获取用户基本信息。',
     input_schema: {
       type: 'object',
       properties: {
@@ -1089,8 +1114,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== INBOX TOOLS ==========
   {
     name: 'get_project_inbox',
-    description:
-      'Get the inbox configuration for a project. / 获取项目收件箱配置。',
+    description: 'Get the inbox configuration for a project. / 获取项目收件箱配置。',
     input_schema: {
       type: 'object',
       properties: {
@@ -1101,8 +1125,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'list_inbox_rules',
-    description:
-      'List inbox processing rules for a project inbox. / 列出项目收件箱的处理规则。',
+    description: 'List inbox processing rules for a project inbox. / 列出项目收件箱的处理规则。',
     input_schema: {
       type: 'object',
       properties: {
@@ -1119,7 +1142,11 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
       type: 'object',
       properties: {
         projectInboxId: { type: 'string', description: 'Project Inbox ID (UUID) / 收件箱 ID' },
-        status: { type: 'string', enum: ['PENDING', 'PROCESSING', 'CONVERTED', 'IGNORED', 'FAILED'], description: 'Filter by status / 按状态筛选' },
+        status: {
+          type: 'string',
+          enum: ['PENDING', 'PROCESSING', 'CONVERTED', 'IGNORED', 'FAILED'],
+          description: 'Filter by status / 按状态筛选',
+        },
         page: { type: 'number', description: 'Page number / 页码' },
         limit: { type: 'number', description: 'Items per page / 每页条数' },
       },
@@ -1130,20 +1157,41 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== AUTOMATION RULE EXTENDED ==========
   {
     name: 'create_automation_rule',
-    description:
-      'Create a new automation rule. / 创建新的自动化规则。',
+    description: 'Create a new automation rule. / 创建新的自动化规则。',
     input_schema: {
       type: 'object',
       properties: {
         name: { type: 'string', description: 'Rule name / 规则名称' },
         triggerType: {
           type: 'string',
-          enum: ['TASK_CREATED', 'TASK_UPDATED', 'TASK_STATUS_CHANGED', 'TASK_ASSIGNED', 'TASK_DUE_DATE_APPROACHING', 'TASK_OVERDUE', 'SPRINT_STARTED', 'SPRINT_COMPLETED', 'PROJECT_CREATED', 'COMMENT_ADDED'],
+          enum: [
+            'TASK_CREATED',
+            'TASK_UPDATED',
+            'TASK_STATUS_CHANGED',
+            'TASK_ASSIGNED',
+            'TASK_DUE_DATE_APPROACHING',
+            'TASK_OVERDUE',
+            'SPRINT_STARTED',
+            'SPRINT_COMPLETED',
+            'PROJECT_CREATED',
+            'COMMENT_ADDED',
+          ],
           description: 'Trigger event / 触发事件',
         },
         actionType: {
           type: 'string',
-          enum: ['ASSIGN_TASK', 'CHANGE_STATUS', 'ADD_LABEL', 'REMOVE_LABEL', 'SET_DUE_DATE', 'SEND_NOTIFICATION', 'SEND_EMAIL', 'ADD_COMMENT', 'MOVE_TO_SPRINT', 'CHANGE_PRIORITY'],
+          enum: [
+            'ASSIGN_TASK',
+            'CHANGE_STATUS',
+            'ADD_LABEL',
+            'REMOVE_LABEL',
+            'SET_DUE_DATE',
+            'SEND_NOTIFICATION',
+            'SEND_EMAIL',
+            'ADD_COMMENT',
+            'MOVE_TO_SPRINT',
+            'CHANGE_PRIORITY',
+          ],
           description: 'Action to perform / 执行动作',
         },
         projectId: { type: 'string', description: 'Project ID (UUID) / 项目 ID' },
@@ -1157,8 +1205,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   },
   {
     name: 'toggle_automation_rule',
-    description:
-      'Enable or disable an automation rule. / 启用或禁用自动化规则。',
+    description: 'Enable or disable an automation rule. / 启用或禁用自动化规则。',
     input_schema: {
       type: 'object',
       properties: {
@@ -1179,7 +1226,10 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
       properties: {
         organizationId: { type: 'string', description: 'Filter by organization / 按组织筛选' },
         projectId: { type: 'string', description: 'Filter by project / 按项目筛选' },
-        entityType: { type: 'string', description: 'Filter by entity type (Task, Project, etc.) / 按实体类型筛选' },
+        entityType: {
+          type: 'string',
+          description: 'Filter by entity type (Task, Project, etc.) / 按实体类型筛选',
+        },
         page: { type: 'number', description: 'Page number (default 1) / 页码' },
         limit: { type: 'number', description: 'Items per page (default 20) / 每页条数' },
       },

@@ -119,26 +119,89 @@ export default function ChatPage() {
   const [editTitle, setEditTitle] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const aborter = useRef<AbortController | null>(null);
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   /* ── Init ── */
   useEffect(() => { const u = getCurrentUser(); if (u) { setUser(u); loadConvs(); } }, [getCurrentUser]);
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
   useEffect(() => { if (!isAuthenticated()) router.replace("/login"); }, []);
+  useEffect(() => { return () => { if (pollRef.current) clearInterval(pollRef.current); }; }, []);
 
   const loadConvs = async () => { try { const r = await api.get("/ai-chat/conversations"); setConvs(r.data || []); } catch {} };
 
-  /* ── SSE stream parser ── */
-  async function* sseStream(r: Response) {
-    const reader = r.body!.getReader(), d = new TextDecoder(); let b = "";
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      b += d.decode(value, { stream: true });
-      const lines = b.split("\n"); b = lines.pop() || "";
-      for (const l of lines) if (l.startsWith("data: ")) try { yield JSON.parse(l.slice(6)); } catch {}
-    }
-  }
+  /* ── Poll for message updates ── */
+  const startPolling = useCallback((targetConvId: string) => {
+    if (pollRef.current) clearInterval(pollRef.current);
+    const interval = setInterval(async () => {
+      try {
+        const r = await api.get(`/ai-chat/conversations/${targetConvId}`);
+        const conv = r.data;
+        if (!conv?.messages) return;
+        const assistantMsgs = conv.messages.filter((m: any) => m.role === "assistant");
+        const lastAssistant = assistantMsgs[assistantMsgs.length - 1];
+        if (!lastAssistant || lastAssistant.status === "completed" || lastAssistant.status === "error") {
+          if (lastAssistant) {
+            const tools: ToolExec[] = Array.isArray(lastAssistant.toolExecutions)
+              ? lastAssistant.toolExecutions.map((t: any) => ({ tool: t.tool || "", params: t.params || {}, result: t.result || {}, pending: false }))
+              : [];
+            const allMsgs = conv.messages.map((m: any) => ({
+              id: m.id || "" + Date.now(), role: m.role,
+              content: m.content || "",
+              toolExecs: Array.isArray(m.toolExecutions) ? m.toolExecutions.map((t: any) => ({ tool: t.tool || "", params: t.params || {}, result: t.result || {}, pending: false })) : [],
+              streaming: false,
+            }));
+            setMessages(allMsgs);
+            for (const tt of tools) { if (tt.tool === "navigate" && tt.result?.path) router.push(tt.result.path); }
+            loadConvs();
+          }
+          clearInterval(interval);
+          pollRef.current = null;
+          setLoading(false);
+          return;
+        }
+        // Still streaming — update messages in real-time
+        const tools: ToolExec[] = Array.isArray(lastAssistant.toolExecutions)
+          ? lastAssistant.toolExecutions.map((t: any) => ({ tool: t.tool || "", params: t.params || {}, result: t.result || {}, pending: false }))
+          : [];
+        setMessages((p) => {
+          const c = [...p];
+          const last = c[c.length - 1];
+          if (last?.role === "assistant") c[c.length - 1] = { ...last, content: lastAssistant.content || "Executing tools...", toolExecs: tools, streaming: true };
+          else c.push({ id: lastAssistant.id, role: "assistant", content: lastAssistant.content || "Executing tools...", toolExecs: tools, streaming: true });
+          return c;
+        });
+      } catch {}
+    }, 2000);
+    pollRef.current = interval;
+  }, [loadConvs]);
+
+  const pollMessages = useCallback(async (targetConvId: string) => {
+    try {
+      const r = await api.get(`/ai-chat/conversations/${targetConvId}`);
+      const conv = r.data;
+      if (!conv?.messages) return true;
+      const assistantMsgs = conv.messages.filter((m: any) => m.role === "assistant");
+      const lastAssistant = assistantMsgs[assistantMsgs.length - 1];
+      if (!lastAssistant) return true;
+
+      const tools: ToolExec[] = Array.isArray(lastAssistant.toolExecutions)
+        ? lastAssistant.toolExecutions.map((t: any) => ({ tool: t.tool || "", params: t.params || {}, result: t.result || {}, pending: false }))
+        : [];
+
+      if (lastAssistant.status === "completed") {
+        setMessages((p) => { const c = [...p]; const last = c[c.length - 1]; if (last?.role === "assistant") c[c.length - 1] = { ...last, content: lastAssistant.content || "Done.", toolExecs: tools, streaming: false }; return c; });
+        for (const tt of tools) { if (tt.tool === "navigate" && tt.result?.path) router.push(tt.result.path); }
+        loadConvs();
+        return false;
+      }
+      if (lastAssistant.status === "error") {
+        setMessages((p) => { const c = [...p]; const last = c[c.length - 1]; if (last?.role === "assistant") c[c.length - 1] = { ...last, content: lastAssistant.content || "Error.", toolExecs: tools, streaming: false }; return c; });
+        return false;
+      }
+      setMessages((p) => { const c = [...p]; const last = c[c.length - 1]; if (last?.role === "assistant") c[c.length - 1] = { ...last, content: "Executing tools...", toolExecs: tools, streaming: true }; return c; });
+      return true;
+    } catch { return true; }
+  }, [loadConvs]);
 
   /* ── Send message ── */
   const send = async () => {
@@ -147,32 +210,23 @@ export default function ChatPage() {
     setMessages((p) => [...p, um]); setInput(""); setLoading(true);
     const aid = "" + (Date.now() + 1);
     setMessages((p) => [...p, { id: aid, role: "assistant", content: "", toolExecs: [], streaming: true }]);
-    const ctrl = new AbortController(); aborter.current = ctrl;
     try {
-      const tok = localStorage.getItem("access_token");
       const sid = sessionId || "s" + Date.now();
       if (!sessionId) setSessionId(sid);
       const body: any = { message: text, sessionId: sid, currentOrganizationId: localStorage.getItem("currentOrganizationId") };
-      const resp = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/ai-chat/chat/stream`, {
-        method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${tok}` },
-        body: JSON.stringify(body), signal: ctrl.signal,
-      });
-      if (!resp.ok) throw new Error("HTTP " + resp.status);
-      let txt = ""; const tools: ToolExec[] = [];
-      for await (const ev of sseStream(resp)) {
-        if (ev.type === "tool_start") tools.push({ tool: ev.tool, params: ev.params, result: { pending: true }, pending: true });
-        else if (ev.type === "tool_result") { const i = tools.findIndex((x) => x.tool === ev.tool && x.pending); if (i >= 0) { tools[i].result = ev.result; tools[i].pending = false; } else tools.push({ tool: ev.tool, params: ev.params || {}, result: ev.result, pending: false }); }
-        else if (ev.type === "message") { txt = ev.message || ""; if (ev.conversationId && !convId) setConvId(ev.conversationId); if (ev.title) loadConvs(); }
-        else if (ev.type === "error") throw new Error(ev.error);
-        setMessages((p) => { const c = [...p]; c[c.length - 1] = { ...c[c.length - 1], content: txt, toolExecs: [...tools] }; return c; });
+      const r = await api.post("/ai-chat/chat", body);
+      const { conversationId: cid, status } = r.data;
+      if (status === "processing" && cid) {
+        setConvId(cid);
+        startPolling(cid);
+      } else {
+        setMessages((p) => { const c = [...p]; const last = c[c.length - 1]; if (last?.role === "assistant") c[c.length - 1] = { ...last, content: (r.data as any).message || "Error", streaming: false }; return c; });
+        setLoading(false);
       }
-      for (const tt of tools) { if (tt.tool === "navigate" && tt.result?.path) router.push(tt.result.path); }
-      setMessages((p) => { const c = [...p]; c[c.length - 1] = { ...c[c.length - 1], content: txt || "Done.", streaming: false }; return c; });
-      loadConvs();
     } catch (err: any) {
-      if (err.name === "AbortError") return;
-      setMessages((p) => { const c = [...p]; c[c.length - 1] = { ...c[c.length - 1], content: "错误: " + err.message, streaming: false }; return c; });
-    } finally { setLoading(false); aborter.current = null; }
+      setMessages((p) => { const c = [...p]; const last = c[c.length - 1]; if (last?.role === "assistant") c[c.length - 1] = { ...last, content: "错误: " + err.message, streaming: false }; return c; });
+      setLoading(false);
+    }
   };
 
   /* ── Key handler ── */
@@ -180,8 +234,8 @@ export default function ChatPage() {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
   }, [loading, user, input]);
 
-  /* ── Stop ── */
-  const stop = () => { aborter.current?.abort(); setLoading(false); setMessages((p) => { const c = [...p]; const last = c[c.length - 1]; if (last?.streaming) c[c.length - 1] = { ...last, streaming: false }; return c; }); };
+  /* ── Stop polling ── */
+  const stop = () => { if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; } setLoading(false); setMessages((p) => { const c = [...p]; const last = c[c.length - 1]; if (last?.streaming) c[c.length - 1] = { ...last, streaming: false }; return c; }); };
 
   return (
     <div className="fixed inset-0 z-50 bg-white dark:bg-[#0f0f0f] flex flex-col overflow-hidden">
@@ -216,9 +270,12 @@ export default function ChatPage() {
                       id: m.id || "" + Date.now(), role: m.role,
                       content: m.content || "",
                       toolExecs: Array.isArray(m.toolExecutions) ? m.toolExecutions.map((t: any) => ({ tool: t.tool || "", params: t.params || {}, result: t.result || {}, pending: false })) : [],
-                      streaming: false,
+                      streaming: m.status === "streaming" || m.status === "pending",
                     }));
                     setMessages(msgs);
+                    // Auto-resume polling if conversation has streaming/pending messages
+                    const hasStreaming = (c.messages || []).some((m: any) => m.status === "streaming" || m.status === "pending");
+                    if (hasStreaming) { setLoading(true); startPolling(c.id); }
                   }}
                   className={`group flex items-center gap-2.5 px-3 py-2.5 rounded-xl cursor-pointer transition-all ${c.id === convId ? "bg-gray-100 dark:bg-gray-800" : "hover:bg-gray-50 dark:hover:bg-gray-800/50"}`}
                 >

@@ -312,9 +312,12 @@ export class AiChatService {
             let cleanTitle = aiTitle.replace(/['""`.\n]/g, '').trim();
             if (cleanTitle.length > 40) cleanTitle = cleanTitle.substring(0, 40) + '...';
             if (cleanTitle.length >= 2) newTitle = cleanTitle;
-          } catch { /* fallback below */ }
+          } catch {
+            /* fallback below */
+          }
           if (!newTitle) {
-            newTitle = chatRequest.message.substring(0, 30) + (chatRequest.message.length > 30 ? '...' : '');
+            newTitle =
+              chatRequest.message.substring(0, 30) + (chatRequest.message.length > 30 ? '...' : '');
           }
           if (newTitle && newTitle !== 'New Chat') {
             conversation = await this.prisma.conversation.update({
@@ -330,8 +333,8 @@ export class AiChatService {
         type: 'message',
         message: finalResponse,
         toolExecutions,
-        conversationId: conversation!.id,
-        title: conversation!.title,
+        conversationId: conversation.id,
+        title: conversation.title,
       };
     } catch (error: any) {
       console.error(error);
@@ -351,7 +354,9 @@ export class AiChatService {
       try {
         const isEnabled = await this.settingsService.get('ai_enabled', userId);
         if (isEnabled !== 'true') {
-          subject.next({ data: { type: 'error', error: 'AI chat is currently disabled' } } as MessageEvent);
+          subject.next({
+            data: { type: 'error', error: 'AI chat is currently disabled' },
+          } as MessageEvent);
           subject.complete();
           return;
         }
@@ -362,7 +367,9 @@ export class AiChatService {
         ]);
 
         if (!rawApiUrl) {
-          subject.next({ data: { type: 'error', error: 'AI API URL not configured' } } as MessageEvent);
+          subject.next({
+            data: { type: 'error', error: 'AI API URL not configured' },
+          } as MessageEvent);
           subject.complete();
           return;
         }
@@ -371,7 +378,9 @@ export class AiChatService {
         const provider = this.detectProvider(apiUrl);
 
         if (!apiKey && provider !== 'ollama') {
-          subject.next({ data: { type: 'error', error: 'AI API key not configured' } } as MessageEvent);
+          subject.next({
+            data: { type: 'error', error: 'AI API key not configured' },
+          } as MessageEvent);
           subject.complete();
           return;
         }
@@ -385,7 +394,8 @@ export class AiChatService {
           const contextParts: string[] = [];
           if (chatRequest.workspaceId) contextParts.push(`workspaceId: ${chatRequest.workspaceId}`);
           if (chatRequest.projectId) contextParts.push(`projectId: ${chatRequest.projectId}`);
-          if (chatRequest.currentOrganizationId) contextParts.push(`organizationId: ${chatRequest.currentOrganizationId}`);
+          if (chatRequest.currentOrganizationId)
+            contextParts.push(`organizationId: ${chatRequest.currentOrganizationId}`);
           userMessage = `[Context: ${contextParts.join(', ')}]\n\n${userMessage}`;
         }
 
@@ -396,13 +406,19 @@ export class AiChatService {
         const toolExecutions: Array<{ tool: string; params: any; result: any }> = [];
 
         for (let iteration = 0; iteration < MAX_TOOL_ITERATIONS; iteration++) {
-          const llmResponse = await this.callLlmWithTools(messages, userId, provider, apiUrl, apiKey);
+          const llmResponse = await this.callLlmWithTools(
+            messages,
+            userId,
+            provider,
+            apiUrl,
+            apiKey,
+          );
 
           if (llmResponse.toolCalls && llmResponse.toolCalls.length > 0) {
             const assistantMsg: any = {
               role: 'assistant',
               content: llmResponse.content || null,
-              tool_calls: llmResponse.toolCalls.map(tc => ({
+              tool_calls: llmResponse.toolCalls.map((tc) => ({
                 id: tc.id,
                 type: 'function',
                 function: { name: tc.name, arguments: JSON.stringify(tc.arguments) },
@@ -420,12 +436,21 @@ export class AiChatService {
                 data: { type: 'tool_start', tool: toolName, params: toolParams },
               } as MessageEvent);
 
-              const toolResult = await this.mcpToolsService.executeTool(toolName, toolParams, userId);
+              const toolResult = await this.mcpToolsService.executeTool(
+                toolName,
+                toolParams,
+                userId,
+              );
               toolExecutions.push({ tool: toolName, params: toolParams, result: toolResult });
 
               // Emit tool result event
               subject.next({
-                data: { type: 'tool_result', tool: toolName, params: toolParams, result: toolResult },
+                data: {
+                  type: 'tool_result',
+                  tool: toolName,
+                  params: toolParams,
+                  result: toolResult,
+                },
               } as MessageEvent);
 
               messages.push({
@@ -444,7 +469,9 @@ export class AiChatService {
         }
 
         if (!finalResponse && toolExecutions.length > 0) {
-          const toolSummary = toolExecutions.map((te) => te.result?.message || `${te.tool} executed`).join('; ');
+          const toolSummary = toolExecutions
+            .map((te) => te.result?.message || `${te.tool} executed`)
+            .join('; ');
           finalResponse = toolSummary || 'Task completed.';
         }
 
@@ -549,7 +576,8 @@ export class AiChatService {
         userMessage = `[Context: ${contextParts.join(', ')}]\n\n${userMessage}`;
       }
 
-      // Save user message
+      // Save user message + create placeholder for background processing
+      let assistantMsgId = '';
       if (conversation) {
         await this.prisma.chatMessage.create({
           data: {
@@ -558,6 +586,17 @@ export class AiChatService {
             content: chatRequest.message,
           },
         });
+
+        // Create placeholder assistant message synchronously so we can return its ID
+        const assistantMsg = await this.prisma.chatMessage.create({
+          data: {
+            conversationId: conversation.id,
+            role: 'assistant',
+            content: '',
+            status: 'pending',
+          },
+        });
+        assistantMsgId = assistantMsg.id;
 
         if (conversation.title === 'New Chat') {
           try {
@@ -587,89 +626,22 @@ export class AiChatService {
 
       messages.push({ role: 'user', content: userMessage });
 
-      // ========== TOOL-CALLING LOOP ==========
-      let finalResponse = '';
-      const toolExecutions: Array<{ tool: string; params: any; result: any }> = [];
+      // Start background AI processing — don't await
+      const convId = conversation?.id || '';
+      this.processChatInBackground(
+        chatRequest, userId, provider, apiUrl, apiKey,
+        convId, assistantMsgId, messages,
+      ).catch((err) => {
+        console.error('Background AI chat failed:', err);
+      });
 
-      for (let iteration = 0; iteration < MAX_TOOL_ITERATIONS; iteration++) {
-        const llmResponse = await this.callLlmWithTools(messages, userId, provider, apiUrl, apiKey);
-
-        // Check if LLM wants to call tools
-        if (llmResponse.toolCalls && llmResponse.toolCalls.length > 0) {
-          // Add assistant message with tool calls to conversation
-          const assistantMsg: any = {
-            role: 'assistant',
-            content: llmResponse.content || null,
-            tool_calls: llmResponse.toolCalls.map(tc => ({
-              id: tc.id,
-              type: 'function',
-              function: {
-                name: tc.name,
-                arguments: JSON.stringify(tc.arguments),
-              },
-            })),
-          };
-          messages.push(assistantMsg);
-
-          // Execute each tool call
-          for (const toolCall of llmResponse.toolCalls) {
-            const toolName = toolCall.name;
-            const toolParams = toolCall.arguments;
-            const toolCallId = toolCall.id;
-
-            // Execute the tool
-            const toolResult = await this.mcpToolsService.executeTool(
-              toolName,
-              toolParams,
-              userId,
-            );
-
-            toolExecutions.push({ tool: toolName, params: toolParams, result: toolResult });
-
-            // Add tool result to messages
-            messages.push({
-              role: 'tool',
-              content: JSON.stringify(toolResult),
-              tool_call_id: toolCallId,
-            } as any);
-          }
-        } else {
-          // No tool calls — this is the final text response
-          finalResponse = llmResponse.content || 'Done.';
-          if (llmResponse.content) {
-            messages.push({ role: 'assistant', content: llmResponse.content });
-          }
-          break;
-        }
-      }
-
-      if (!finalResponse && toolExecutions.length > 0) {
-        // If loop exhausted but we executed tools, summarize
-        const toolSummary = toolExecutions
-          .map((te) => te.result?.message || `${te.tool} executed`)
-          .join('; ');
-        finalResponse = toolSummary || 'Task completed.';
-      }
-
-      // Save assistant response
-      if (conversation && finalResponse) {
-        await this.prisma.chatMessage.create({
-          data: {
-            conversationId: conversation.id,
-            role: 'assistant',
-            content: finalResponse,
-          },
-        });
-        await this.prisma.conversation.update({
-          where: { id: conversation.id },
-          data: { updatedAt: new Date() },
-        });
-      }
-
+      // Return immediately with message ID for polling
       return {
-        message: finalResponse,
+        message: '',
         success: true,
-        toolExecutions: toolExecutions.length > 0 ? toolExecutions : undefined,
+        status: 'processing',
+        conversationId: convId,
+        messageId: assistantMsgId,
       };
     } catch (error: any) {
       console.error(error);
@@ -690,6 +662,113 @@ export class AiChatService {
   }
 
   /**
+   * Process AI chat in background — creates placeholder message, runs tool loop,
+   * updates message as progress is made so frontend polling sees incremental results.
+   */
+  private async processChatInBackground(
+    chatRequest: ChatRequestDto,
+    userId: string,
+    provider: string,
+    apiUrl: string,
+    apiKey: string | null,
+    conversationId: string,
+    messageId: string,
+    messages: ChatMessageDto[],
+  ): Promise<void> {
+    try {
+      // Mark placeholder as streaming
+      await this.prisma.chatMessage.update({
+        where: { id: messageId },
+        data: { status: 'streaming' },
+      });
+
+      let finalResponse = '';
+      const toolExecutions: Array<{ tool: string; params: any; result: any }> = [];
+
+      for (let iteration = 0; iteration < MAX_TOOL_ITERATIONS; iteration++) {
+        const llmResponse = await this.callLlmWithTools(messages, userId, provider, apiUrl, apiKey);
+
+        if (llmResponse.toolCalls && llmResponse.toolCalls.length > 0) {
+          const assistantMsg2: any = {
+            role: 'assistant',
+            content: llmResponse.content || null,
+            tool_calls: llmResponse.toolCalls.map((tc) => ({
+              id: tc.id,
+              type: 'function',
+              function: {
+                name: tc.name,
+                arguments: JSON.stringify(tc.arguments),
+              },
+            })),
+          };
+          messages.push(assistantMsg2);
+
+          for (const toolCall of llmResponse.toolCalls) {
+            const toolName = toolCall.name;
+            const toolParams = toolCall.arguments;
+            const toolCallId = toolCall.id;
+
+            const toolResult = await this.mcpToolsService.executeTool(toolName, toolParams, userId);
+            toolExecutions.push({ tool: toolName, params: toolParams, result: toolResult });
+
+            messages.push({
+              role: 'tool',
+              content: JSON.stringify(toolResult),
+              tool_call_id: toolCallId,
+            } as any);
+
+            // Update message incrementally so frontend polling sees progress
+            await this.prisma.chatMessage.update({
+              where: { id: messageId },
+              data: {
+                content: `Executing: ${toolName}`,
+                toolExecutions: [...toolExecutions] as any,
+              },
+            });
+          }
+        } else {
+          finalResponse = llmResponse.content || 'Done.';
+          if (llmResponse.content) {
+            messages.push({ role: 'assistant', content: llmResponse.content });
+          }
+          break;
+        }
+      }
+
+      if (!finalResponse && toolExecutions.length > 0) {
+        finalResponse = toolExecutions
+          .map((te) => te.result?.message || `${te.tool} executed`)
+          .join('; ') || 'Task completed.';
+      }
+
+      // Save complete response
+      await this.prisma.chatMessage.update({
+        where: { id: messageId },
+        data: {
+          content: finalResponse,
+          toolExecutions: toolExecutions.length > 0 ? (toolExecutions as any) : undefined,
+          status: 'completed',
+        },
+      });
+      await this.prisma.conversation.update({
+        where: { id: conversationId },
+        data: { updatedAt: new Date() },
+      });
+    } catch (error: any) {
+      console.error('Background AI chat error:', error);
+      if (messageId) {
+        await this.prisma.chatMessage.update({
+          where: { id: messageId },
+          data: {
+            status: 'error',
+            content: `Error: ${error instanceof Error ? error.message : String(error)}`,
+          },
+        }).catch(() => {});
+      }
+    }
+  }
+
+  /**
    * Call LLM with tool definitions and parse tool call responses
    */
   private async callLlmWithTools(
@@ -698,7 +777,10 @@ export class AiChatService {
     provider: string,
     apiUrl: string,
     apiKey: string | null,
-  ): Promise<{ content: string | null; toolCalls: Array<{ id: string; name: string; arguments: any }> | null }> {
+  ): Promise<{
+    content: string | null;
+    toolCalls: Array<{ id: string; name: string; arguments: any }> | null;
+  }> {
     const model = await this.settingsService.get('ai_model', userId);
     if (!model) throw new BadRequestException('AI model not configured.');
 
@@ -743,7 +825,9 @@ export class AiChatService {
         delete requestHeaders['Authorization'];
 
         const systemMsg = messages.find((m) => m.role === 'system');
-        const nonSystemMsgs = messages.filter((m) => m.role !== 'system' && (m as any).role !== 'tool');
+        const nonSystemMsgs = messages.filter(
+          (m) => m.role !== 'system' && (m as any).role !== 'tool',
+        );
 
         requestBody = {
           model,
@@ -835,7 +919,10 @@ export class AiChatService {
   private parseLLMResponse(
     data: any,
     provider: string,
-  ): { content: string | null; toolCalls: Array<{ id: string; name: string; arguments: any }> | null } {
+  ): {
+    content: string | null;
+    toolCalls: Array<{ id: string; name: string; arguments: any }> | null;
+  } {
     switch (provider) {
       case 'anthropic': {
         const contentBlocks = data?.content || [];
@@ -1142,12 +1229,11 @@ Respond ONLY with the description text, nothing else.`;
         },
       ];
 
-      const description = await this.callLlmSimple(
-        messages,
-        'test-connection',
-        50,
-        { apiKey, model, apiUrl },
-      );
+      const description = await this.callLlmSimple(messages, 'test-connection', 50, {
+        apiKey,
+        model,
+        apiUrl,
+      });
 
       if (description) {
         return {
@@ -1317,9 +1403,12 @@ Respond ONLY with the description text, nothing else.`;
 
     const trimmed = model.trim();
     if (trimmed.length === 0) throw new BadRequestException('Model name cannot be empty');
-    if (trimmed.length > maxLength) throw new BadRequestException(`Model name is too long (max ${maxLength} characters)`);
-    if (!allowPathTraversal && trimmed.includes('..')) throw new BadRequestException('Model name cannot contain path traversal sequences');
-    if (trimmed.startsWith('/') || /^[a-zA-Z]:\\/.test(trimmed)) throw new BadRequestException('Model name cannot be an absolute path');
+    if (trimmed.length > maxLength)
+      throw new BadRequestException(`Model name is too long (max ${maxLength} characters)`);
+    if (!allowPathTraversal && trimmed.includes('..'))
+      throw new BadRequestException('Model name cannot contain path traversal sequences');
+    if (trimmed.startsWith('/') || /^[a-zA-Z]:\\/.test(trimmed))
+      throw new BadRequestException('Model name cannot be an absolute path');
     if (!allowedPattern.test(trimmed)) throw new BadRequestException(customErrorMessage);
   }
 }

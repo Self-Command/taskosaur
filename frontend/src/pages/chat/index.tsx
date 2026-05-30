@@ -166,8 +166,8 @@ export default function ChatPage() {
         setMessages((p) => {
           const c = [...p];
           const last = c[c.length - 1];
-          if (last?.role === "assistant") c[c.length - 1] = { ...last, content: lastAssistant.content || "Executing tools...", toolExecs: tools, streaming: true };
-          else c.push({ id: lastAssistant.id, role: "assistant", content: lastAssistant.content || "Executing tools...", toolExecs: tools, streaming: true });
+          if (last?.role === "assistant") c[c.length - 1] = { ...last, content: lastAssistant.content || "", toolExecs: tools, streaming: true };
+          else c.push({ id: lastAssistant.id, role: "assistant", content: lastAssistant.content || "", toolExecs: tools, streaming: true });
           return c;
         });
       } catch {}
@@ -198,7 +198,7 @@ export default function ChatPage() {
         setMessages((p) => { const c = [...p]; const last = c[c.length - 1]; if (last?.role === "assistant") c[c.length - 1] = { ...last, content: lastAssistant.content || "Error.", toolExecs: tools, streaming: false }; return c; });
         return false;
       }
-      setMessages((p) => { const c = [...p]; const last = c[c.length - 1]; if (last?.role === "assistant") c[c.length - 1] = { ...last, content: "Executing tools...", toolExecs: tools, streaming: true }; return c; });
+      setMessages((p) => { const c = [...p]; const last = c[c.length - 1]; if (last?.role === "assistant") c[c.length - 1] = { ...last, content: "", toolExecs: tools, streaming: true }; return c; });
       return true;
     } catch { return true; }
   }, [loadConvs]);

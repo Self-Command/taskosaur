@@ -190,7 +190,7 @@ export default function ChatPanel() {
         return false;
       }
       // streaming or pending — update toolExecs as they come
-      setMessages((p) => { const c = [...p]; const last = c[c.length - 1]; if (last?.role === "assistant") c[c.length - 1] = { ...last, content: "Executing tools...", toolExecs: tools, streaming: true }; return c; });
+      setMessages((p) => { const c = [...p]; const last = c[c.length - 1]; if (last?.role === "assistant") c[c.length - 1] = { ...last, content: "", toolExecs: tools, streaming: true }; return c; });
       return true; // keep polling
     } catch { return true; }
   }, [loadConvs]);
@@ -227,8 +227,8 @@ export default function ChatPanel() {
         setMessages((p) => {
           const c = [...p];
           const last = c[c.length - 1];
-          if (last?.role === "assistant") c[c.length - 1] = { ...last, content: lastAssistant.content || "Executing tools...", toolExecs: tools, streaming: true };
-          else c.push({ id: lastAssistant.id, role: "assistant", content: lastAssistant.content || "Executing tools...", toolExecs: tools, streaming: true });
+          if (last?.role === "assistant") c[c.length - 1] = { ...last, content: lastAssistant.content || "", toolExecs: tools, streaming: true };
+          else c.push({ id: lastAssistant.id, role: "assistant", content: lastAssistant.content || "", toolExecs: tools, streaming: true });
           return c;
         });
       } catch {}

@@ -729,7 +729,6 @@ export class AiChatService {
             await this.prisma.chatMessage.update({
               where: { id: messageId },
               data: {
-                content: `Executing: ${toolName}`,
                 toolExecutions: [...toolExecutions] as any,
               },
             });
@@ -744,9 +743,11 @@ export class AiChatService {
       }
 
       if (!finalResponse && toolExecutions.length > 0) {
-        finalResponse =
-          toolExecutions.map((te) => te.result?.message || `${te.tool} executed`).join('; ') ||
-          'Task completed.';
+        const successMsg = toolExecutions
+          .map((te) => te.result?.message)
+          .filter(Boolean)
+          .join('\n');
+        finalResponse = successMsg || '操作已完成，点击上方卡片查看详情。';
       }
 
       // Save complete response

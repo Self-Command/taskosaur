@@ -31,7 +31,7 @@ export class CreateAutomationRuleDto {
   @ApiProperty({
     description: 'Configuration for the trigger conditions',
     example: {
-      taskType: 'BUG',
+      taskType: 'TASK',
       priority: 'HIGH',
       projectId: '123e4567-e89b-12d3-a456-426614174000',
     },

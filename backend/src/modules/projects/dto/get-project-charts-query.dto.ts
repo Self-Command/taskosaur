@@ -19,10 +19,9 @@ export interface ProjectKPIMetrics {
   totalTasks: number;
   completedTasks: number;
   activeSprints: number;
-  totalBugs: number;
-  resolvedBugs: number;
+  overdueTasks: number;
   completionRate: number;
-  bugResolutionRate: number;
+  onTimeCompletionRate: number;
 }
 
 export interface TaskStatusFlow {

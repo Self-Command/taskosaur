@@ -124,11 +124,11 @@ export class TimeEntriesSeederService {
   private getDefaultEstimate(task: Task): number {
     // Default estimates based on task type (in minutes)
     switch (task.type) {
-      case 'EPIC':
+      case 'GOAL':
         return 2400; // 40 hours
-      case 'STORY':
+      case 'STUDY':
         return 480; // 8 hours
-      case 'BUG':
+      case 'TASK':
         return 180; // 3 hours
       case 'SUBTASK':
         return 120; // 2 hours
@@ -186,9 +186,9 @@ export class TimeEntriesSeederService {
     const minSession = 30; // 30 minutes minimum
     let maxSession = 240; // 4 hours maximum
 
-    if (taskType === 'BUG') {
+    if (taskType === 'TASK') {
       maxSession = 120; // Bugs usually take shorter focused sessions
-    } else if (taskType === 'EPIC') {
+    } else if (taskType === 'GOAL') {
       maxSession = 480; // Epics can have longer sessions
     }
 

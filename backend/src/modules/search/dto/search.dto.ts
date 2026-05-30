@@ -153,7 +153,7 @@ export class AdvancedSearchDto {
     description: 'Task types to include',
     enum: TaskType,
     isArray: true,
-    example: [TaskType.BUG, TaskType.STORY],
+    example: [TaskType.GOAL, TaskType.HABIT],
     required: false,
   })
   @IsArray()

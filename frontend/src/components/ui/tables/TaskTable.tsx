@@ -368,9 +368,14 @@ const PRIORITY_LABELS: Record<string, string> = {
 
 const TYPE_LABELS: Record<string, string> = {
   TASK: "Task",
-  BUG: "Bug",
-  EPIC: "Epic",
-  STORY: "Story",
+  HABIT: "Habit",
+  STUDY: "Study",
+  WORK: "Work",
+  LIFE: "Life",
+  GOAL: "Goal",
+  EVENT: "Event",
+  NOTE: "Note",
+  PROJECT: "Project",
   SUBTASK: "Sub-task",
 };
 

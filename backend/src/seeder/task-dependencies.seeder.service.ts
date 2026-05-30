@@ -183,17 +183,17 @@ export class TaskDependenciesSeederService {
     }
 
     // Epic breakdown - epics don't depend on other tasks typically
-    if (dependentTask.type === 'EPIC') {
+    if (dependentTask.type === 'PROJECT') {
       return false;
     }
 
     // Subtasks depend on parent stories
-    if (dependentTask.type === 'SUBTASK' && blockingTask.type === 'STORY') {
+    if (dependentTask.type === 'SUBTASK' && blockingTask.type === 'TASK') {
       return true;
     }
 
     // Bug fixes might depend on features being implemented
-    if (dependentTask.type === 'BUG') {
+    if (dependentTask.type === 'TASK') {
       if (blocking.includes('implement') && dependent.includes('fix')) {
         return true;
       }
@@ -206,7 +206,7 @@ export class TaskDependenciesSeederService {
     // Most dependencies in software development are BLOCKS (finish-to-start)
     // The blocking task must be completed before the dependent task can start
 
-    if (dependentTask.type === 'SUBTASK' && blockingTask.type === 'STORY') {
+    if (dependentTask.type === 'SUBTASK' && blockingTask.type === 'TASK') {
       return DependencyType.FINISH_START; // Story must finish before subtask starts
     }
 

@@ -3,7 +3,7 @@ import { Task } from "./tasks";
 export interface CreateTaskRequest {
   title: string;
   description?: string;
-  type?: "TASK" | "STORY" | "BUG" | "EPIC" | "SUBTASK";
+  type?: "TASK" | "HABIT" | "STUDY" | "WORK" | "LIFE" | "GOAL" | "EVENT" | "NOTE" | "PROJECT" | "SUBTASK";
   priority?: "LOW" | "MEDIUM" | "HIGH" | "HIGHEST";
   startDate?: string;
   dueDate?: string;
@@ -32,7 +32,7 @@ export interface UpdateTaskRequest {
   title?: string;
   description?: string;
   priority?: "LOW" | "MEDIUM" | "HIGH" | "HIGHEST";
-  type?: "TASK" | "STORY" | "BUG" | "EPIC" | "SUBTASK";
+  type?: "TASK" | "HABIT" | "STUDY" | "WORK" | "LIFE" | "GOAL" | "EVENT" | "NOTE" | "PROJECT" | "SUBTASK";
   startDate?: string;
   dueDate?: string;
   remainingEstimate?: number;

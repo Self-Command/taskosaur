@@ -38,11 +38,16 @@
     "cancelled": "Cancelado"
   },
   "task_types": {
-    "story": "Historia",
     "task": "Tarea",
-    "bug": "Error",
-    "epic": "Épica",
-    "feature": "Característica"
+    "habit": "Hábito",
+    "study": "Estudio",
+    "work": "Trabajo",
+    "life": "Vida",
+    "goal": "Objetivo",
+    "event": "Evento",
+    "note": "Nota",
+    "project": "Proyecto",
+    "subtask": "Subtarea"
   },
   "priority": {
     "lowest": "Muy Baja",
@@ -130,7 +135,7 @@
       "projects": "Proyectos Totales",
       "members": "Miembros del Equipo",
       "task_completion": "Completado de Tareas",
-      "bug_resolution": "Resolución de Errores",
+      "on_time_completion": "Finalización a Tiempo",
       "overdue_tasks": "Tareas Atrasadas",
       "active_sprints": "Sprints Activos",
       "productivity": "Productividad General",

@@ -281,18 +281,17 @@ export const inboxApi = {
 
   getTaskTypeLabel: (type: string): string => {
     switch (type) {
-      case "TASK":
-        return "Task";
-      case "BUG":
-        return "Bug";
-      case "EPIC":
-        return "Epic";
-      case "STORY":
-        return "Story";
-      case "SUBTASK":
-        return "Subtask";
-      default:
-        return "Unknown";
+      case "TASK": return "Task";
+      case "HABIT": return "Habit";
+      case "STUDY": return "Study";
+      case "WORK": return "Work";
+      case "LIFE": return "Life";
+      case "GOAL": return "Goal";
+      case "EVENT": return "Event";
+      case "NOTE": return "Note";
+      case "PROJECT": return "Project";
+      case "SUBTASK": return "Subtask";
+      default: return "Unknown";
     }
   },
 

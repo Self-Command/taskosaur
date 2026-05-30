@@ -38,11 +38,16 @@
     "cancelled": "已取消"
   },
   "task_types": {
-    "story": "故事",
     "task": "任务",
-    "bug": "缺陷",
-    "epic": "史诗",
-    "feature": "功能"
+    "habit": "习惯",
+    "study": "学习",
+    "work": "工作",
+    "life": "生活",
+    "goal": "目标",
+    "event": "日程",
+    "note": "便签",
+    "project": "项目",
+    "subtask": "子任务"
   },
   "priority": {
     "lowest": "最低",
@@ -130,7 +135,7 @@
       "projects": "总项目",
       "members": "团队成员",
       "task_completion": "任务完成率",
-      "bug_resolution": "缺陷解决率",
+      "on_time_completion": "按时完成率",
       "overdue_tasks": "逾期任务",
       "active_sprints": "活跃冲刺",
       "productivity": "总体生产力",

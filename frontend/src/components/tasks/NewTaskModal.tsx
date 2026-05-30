@@ -498,7 +498,7 @@ export function NewTaskModal({
           title: formData.title.trim(),
           description: "",
           priority: formData.priority as "LOW" | "MEDIUM" | "HIGH" | "HIGHEST",
-          type: ["TASK", "BUG", "EPIC", "STORY", "SUBTASK"].includes(formData.type)
+          type: ["TASK", "HABIT", "STUDY", "WORK", "LIFE", "GOAL", "EVENT", "NOTE", "PROJECT", "SUBTASK"].includes(formData.type)
             ? formData.type
             : "TASK",
           storyPoints: formData.storyPoints ? parseInt(formData.storyPoints) : undefined,

@@ -1279,7 +1279,7 @@ export default function TaskDetailClient({
                         onItemSelect={async (item) => {
                           try {
                             const updateData: UpdateTaskRequest = {
-                              type: item.id as "TASK" | "STORY" | "BUG" | "EPIC" | "SUBTASK",
+                              type: item.id as "TASK" | "HABIT" | "STUDY" | "WORK" | "LIFE" | "GOAL" | "EVENT" | "NOTE" | "PROJECT" | "SUBTASK",
                             };
                             await updateTask(taskId, updateData);
                             handleTaskFieldChange("taskType", item.id);

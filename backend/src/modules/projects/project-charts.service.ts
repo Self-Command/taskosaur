@@ -206,37 +206,50 @@ export class ProjectChartsService {
    */
   async projectKPIMetrics(projectSlug: string, userId: string): Promise<ProjectKPIMetrics> {
     const { project } = await this.getProjectWithAccess(projectSlug, userId);
+    const now = new Date();
 
     const taskWhere = {
       projectId: project.id,
     };
 
-    const [totalTasks, completedTasks, activeSprints, totalBugs, resolvedBugs] = await Promise.all([
-      this.prisma.task.count({ where: taskWhere }),
-      this.prisma.task.count({
-        where: { ...taskWhere, completedAt: { not: null } },
-      }),
-      this.prisma.sprint.count({
-        where: {
-          projectId: project.id,
-          archive: false,
-          status: 'ACTIVE',
-        },
-      }),
-      this.prisma.task.count({ where: { ...taskWhere, type: 'BUG' } }),
-      this.prisma.task.count({
-        where: { ...taskWhere, type: 'BUG', completedAt: { not: null } },
-      }),
-    ]);
+    const [totalTasks, completedTasks, activeSprints, overdueTasks, completedWithDueDate] =
+      await Promise.all([
+        this.prisma.task.count({ where: taskWhere }),
+        this.prisma.task.count({
+          where: { ...taskWhere, completedAt: { not: null } },
+        }),
+        this.prisma.sprint.count({
+          where: {
+            projectId: project.id,
+            archive: false,
+            status: 'ACTIVE',
+          },
+        }),
+        this.prisma.task.count({
+          where: { ...taskWhere, dueDate: { lt: now }, completedAt: null },
+        }),
+        this.prisma.task.findMany({
+          where: {
+            ...taskWhere,
+            completedAt: { not: null },
+            dueDate: { not: null },
+          },
+          select: { completedAt: true, dueDate: true },
+        }),
+      ]);
+
+    const onTimeCompleted = completedWithDueDate.filter(
+      (t) => t.completedAt! <= t.dueDate!,
+    ).length;
+    const totalWithDueDate = completedWithDueDate.length;
 
     return {
       totalTasks,
       completedTasks,
       activeSprints,
-      totalBugs,
-      resolvedBugs,
+      overdueTasks,
       completionRate: this.calculatePercentage(completedTasks, totalTasks),
-      bugResolutionRate: this.calculatePercentage(resolvedBugs, totalBugs),
+      onTimeCompletionRate: this.calculatePercentage(onTimeCompleted, totalWithDueDate),
     };
   }
 

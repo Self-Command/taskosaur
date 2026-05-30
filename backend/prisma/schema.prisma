@@ -917,9 +917,14 @@ enum ViewType {
 
 enum TaskType {
   TASK
-  BUG
-  EPIC
-  STORY
+  HABIT
+  STUDY
+  WORK
+  LIFE
+  GOAL
+  EVENT
+  NOTE
+  PROJECT
   SUBTASK
 }
 

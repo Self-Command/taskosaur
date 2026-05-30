@@ -14,7 +14,6 @@ import {
 import {
   HiOutlineClipboard,
   HiOutlineLightBulb,
-  HiOutlineBugAnt,
   HiOutlineSparkles,
 } from "react-icons/hi2";
 import { HiOutlineViewList } from "react-icons/hi";
@@ -66,9 +65,14 @@ export const PRIORITY_OPTIONS = [
 
 export const TASK_TYPE_OPTIONS = [
   { value: "TASK", label: "Task" },
-  { value: "BUG", label: "Bug" },
-  { value: "EPIC", label: "Epic" },
-  { value: "STORY", label: "Story" },
+  { value: "HABIT", label: "Habit" },
+  { value: "STUDY", label: "Study" },
+  { value: "WORK", label: "Work" },
+  { value: "LIFE", label: "Life" },
+  { value: "GOAL", label: "Goal" },
+  { value: "EVENT", label: "Event" },
+  { value: "NOTE", label: "Note" },
+  { value: "PROJECT", label: "Project" },
   { value: "SUBTASK", label: "Subtask" },
 ];
 
@@ -89,9 +93,14 @@ export const DEFAULT_SORT_FIELDS = [
 
 export const TaskTypeIcon = {
   TASK: { label: "Task", icon: HiOutlineClipboard, color: "blue-500" },
-  STORY: { label: "Story", icon: HiOutlineLightBulb, color: "green-500" },
-  BUG: { label: "Bug", icon: HiOutlineBugAnt, color: "red-500" },
-  EPIC: { label: "Epic", icon: HiOutlineSparkles, color: "purple-500" },
+  HABIT: { label: "Habit", icon: HiOutlineSparkles, color: "teal-500" },
+  STUDY: { label: "Study", icon: HiOutlineLightBulb, color: "indigo-500" },
+  WORK: { label: "Work", icon: HiOutlineClipboard, color: "amber-500" },
+  LIFE: { label: "Life", icon: HiOutlineSparkles, color: "pink-500" },
+  GOAL: { label: "Goal", icon: HiOutlineSparkles, color: "purple-500" },
+  EVENT: { label: "Event", icon: HiOutlineClipboard, color: "cyan-500" },
+  NOTE: { label: "Note", icon: HiOutlineClipboard, color: "slate-500" },
+  PROJECT: { label: "Project", icon: HiOutlineSparkles, color: "purple-500" },
   SUBTASK: { label: "Subtask", icon: HiOutlineViewList, color: "orange-500" },
 } as const;
 
@@ -102,6 +111,12 @@ export const TaskTypeColorMap: Record<string, string> = {
   "red-500": "#EF4444",
   "purple-500": "#8B5CF6",
   "orange-500": "#F97316",
+  "teal-500": "#14B8A6",
+  "indigo-500": "#6366F1",
+  "amber-500": "#F59E0B",
+  "pink-500": "#EC4899",
+  "cyan-500": "#06B6D4",
+  "slate-500": "#64748B",
 };
 
 // Helper function to get hex color from task type

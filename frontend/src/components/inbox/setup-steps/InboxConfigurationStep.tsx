@@ -102,14 +102,29 @@ export default function InboxConfigurationStep({
                 <SelectItem className="hover:bg-[var(--muted)]" value="TASK">
                   Task
                 </SelectItem>
-                <SelectItem className="hover:bg-[var(--muted)]" value="BUG">
-                  Bug
+                <SelectItem className="hover:bg-[var(--muted)]" value="HABIT">
+                  Habit
                 </SelectItem>
-                <SelectItem className="hover:bg-[var(--muted)]" value="EPIC">
-                  Epic
+                <SelectItem className="hover:bg-[var(--muted)]" value="STUDY">
+                  Study
                 </SelectItem>
-                <SelectItem className="hover:bg-[var(--muted)]" value="STORY">
-                  Story
+                <SelectItem className="hover:bg-[var(--muted)]" value="WORK">
+                  Work
+                </SelectItem>
+                <SelectItem className="hover:bg-[var(--muted)]" value="LIFE">
+                  Life
+                </SelectItem>
+                <SelectItem className="hover:bg-[var(--muted)]" value="GOAL">
+                  Goal
+                </SelectItem>
+                <SelectItem className="hover:bg-[var(--muted)]" value="EVENT">
+                  Event
+                </SelectItem>
+                <SelectItem className="hover:bg-[var(--muted)]" value="NOTE">
+                  Note
+                </SelectItem>
+                <SelectItem className="hover:bg-[var(--muted)]" value="PROJECT">
+                  Project
                 </SelectItem>
                 <SelectItem className="hover:bg-[var(--muted)]" value="SUBTASK">
                   Subtask

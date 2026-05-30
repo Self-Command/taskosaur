@@ -166,8 +166,8 @@ export const organizationKPICards: KPICard[] = [
     isDefault: true,
   },
   {
-    id: "bug-resolution",
-    label: "workspace-home:analytics.kpi_cards.bug_resolution",
+    id: "on-time-completion",
+    label: "workspace-home:analytics.kpi_cards.on_time_completion",
     visible: false,
     isDefault: false,
   },

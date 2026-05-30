@@ -109,7 +109,7 @@ export class TaskWatchersSeederService {
     }
 
     // Testing tasks - add QA team members
-    if (taskTitle.includes('test') || taskTitle.includes('qa') || taskType === 'BUG') {
+    if (taskTitle.includes('test') || taskTitle.includes('qa') || taskType === 'TASK') {
       const qaUsers = this.getUsersByRole(remainingUsers, ['qa', 'test']);
       watchers.push(...qaUsers.slice(0, 1));
     }
@@ -137,7 +137,7 @@ export class TaskWatchersSeederService {
     }
 
     // High priority tasks - add managers/leads
-    if (task.priority === 'HIGH' || task.priority === 'HIGHEST' || taskType === 'EPIC') {
+    if (task.priority === 'HIGH' || task.priority === 'HIGHEST' || taskType === 'PROJECT') {
       const managers = availableUsers
         .filter((u) => u.role === 'MANAGER' || u.role === 'SUPER_ADMIN')
         .filter((u) => !watchers.find((w) => w.id === u.id));

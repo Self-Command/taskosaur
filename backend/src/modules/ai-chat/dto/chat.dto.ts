@@ -171,7 +171,7 @@ export class GenerateDescriptionDto {
   title: string;
 
   @ApiPropertyOptional({
-    description: 'Task type (TASK, BUG, EPIC, STORY, SUBTASK)',
+    description: 'Task type (TASK, HABIT, STUDY, WORK, LIFE, GOAL, EVENT, NOTE, PROJECT, SUBTASK)',
   })
   @IsOptional()
   @IsString()

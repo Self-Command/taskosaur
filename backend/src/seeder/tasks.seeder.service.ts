@@ -207,7 +207,7 @@ export class TasksSeederService {
           title: 'Design user authentication flow',
           description:
             'Create wireframes and user flow diagrams for login, signup, and password reset functionality.',
-          type: TaskType.STORY,
+          type: TaskType.STUDY,
           priority: TaskPriority.HIGH,
           storyPoints: 5,
           originalEstimate: 720,
@@ -231,7 +231,7 @@ export class TasksSeederService {
           title: 'Create responsive dashboard layout',
           description:
             'Build main dashboard with responsive grid layout, navigation sidebar, and header components.',
-          type: TaskType.STORY,
+          type: TaskType.WORK,
           priority: TaskPriority.MEDIUM,
           storyPoints: 5,
           originalEstimate: 600,
@@ -243,7 +243,7 @@ export class TasksSeederService {
           title: 'Fix authentication redirect bug',
           description:
             'Users are not being redirected to the correct page after login. Investigate and fix routing issue.',
-          type: TaskType.BUG,
+          type: TaskType.TASK,
           priority: TaskPriority.HIGH,
           storyPoints: 2,
           originalEstimate: 240,
@@ -254,7 +254,7 @@ export class TasksSeederService {
         {
           title: 'Add dark mode toggle',
           description: 'Implement theme switching functionality with user preference persistence.',
-          type: TaskType.TASK,
+          type: TaskType.EVENT,
           priority: TaskPriority.LOW,
           storyPoints: 3,
           originalEstimate: 360,
@@ -266,7 +266,7 @@ export class TasksSeederService {
           title: 'User management epic',
           description:
             'Epic for all user-related features including profiles, permissions, and account settings.',
-          type: TaskType.EPIC,
+          type: TaskType.PROJECT,
           priority: TaskPriority.MEDIUM,
           storyPoints: 21,
           originalEstimate: 2400,
@@ -277,7 +277,7 @@ export class TasksSeederService {
         {
           title: 'Implement user profile editing',
           description: 'Allow users to edit their profile information, avatar, and preferences.',
-          type: TaskType.STORY,
+          type: TaskType.WORK,
           priority: TaskPriority.MEDIUM,
           storyPoints: 5,
           originalEstimate: 600,
@@ -339,7 +339,7 @@ export class TasksSeederService {
           title: 'Implement user CRUD operations',
           description:
             'Build complete user management API with create, read, update, delete operations.',
-          type: TaskType.STORY,
+          type: TaskType.WORK,
           priority: TaskPriority.HIGH,
           storyPoints: 5,
           originalEstimate: 720,
@@ -363,7 +363,7 @@ export class TasksSeederService {
           title: 'Fix database connection pool issue',
           description:
             'Database connections are not being properly released, causing pool exhaustion.',
-          type: TaskType.BUG,
+          type: TaskType.TASK,
           priority: TaskPriority.HIGH,
           storyPoints: 5,
           originalEstimate: 480,
@@ -398,7 +398,7 @@ export class TasksSeederService {
         {
           title: 'Implement caching layer',
           description: 'Add Redis caching for frequently accessed data to improve API performance.',
-          type: TaskType.STORY,
+          type: TaskType.GOAL,
           priority: TaskPriority.MEDIUM,
           storyPoints: 8,
           originalEstimate: 960,
@@ -425,7 +425,7 @@ export class TasksSeederService {
           title: 'Create button component variants',
           description:
             'Design and document all button states: primary, secondary, outline, ghost, with sizes.',
-          type: TaskType.STORY,
+          type: TaskType.STUDY,
           priority: TaskPriority.HIGH,
           storyPoints: 3,
           originalEstimate: 480,
@@ -437,7 +437,7 @@ export class TasksSeederService {
           title: 'Build form input components',
           description:
             'Create text inputs, selects, checkboxes, and radio buttons with validation states.',
-          type: TaskType.STORY,
+          type: TaskType.WORK,
           priority: TaskPriority.MEDIUM,
           storyPoints: 8,
           originalEstimate: 960,
@@ -460,7 +460,7 @@ export class TasksSeederService {
           title: 'Create navigation components',
           description:
             'Design and implement navigation bar, sidebar, breadcrumbs, and pagination components.',
-          type: TaskType.STORY,
+          type: TaskType.WORK,
           priority: TaskPriority.MEDIUM,
           storyPoints: 8,
           originalEstimate: 960,
@@ -486,7 +486,7 @@ export class TasksSeederService {
         {
           title: 'Research target audience',
           description: 'Conduct market research to identify key demographics and user personas.',
-          type: TaskType.TASK,
+          type: TaskType.HABIT,
           priority: TaskPriority.HIGH,
           storyPoints: 5,
           originalEstimate: 720,
@@ -497,7 +497,7 @@ export class TasksSeederService {
         {
           title: 'Create campaign messaging strategy',
           description: 'Develop key messages, value propositions, and communication guidelines.',
-          type: TaskType.STORY,
+          type: TaskType.GOAL,
           priority: TaskPriority.HIGH,
           storyPoints: 8,
           originalEstimate: 960,
@@ -521,7 +521,7 @@ export class TasksSeederService {
           title: 'Launch email campaign',
           description:
             'Set up automated email sequences and launch initial campaign to subscriber list.',
-          type: TaskType.TASK,
+          type: TaskType.EVENT,
           priority: TaskPriority.HIGH,
           storyPoints: 3,
           originalEstimate: 480,
@@ -532,7 +532,7 @@ export class TasksSeederService {
         {
           title: 'Create landing page content',
           description: 'Write compelling copy and create visuals for campaign landing pages.',
-          type: TaskType.STORY,
+          type: TaskType.NOTE,
           priority: TaskPriority.MEDIUM,
           storyPoints: 8,
           originalEstimate: 960,
@@ -571,7 +571,7 @@ export class TasksSeederService {
       {
         title: 'Implement core functionality',
         description: 'Build the main features and functionality as defined in requirements.',
-        type: TaskType.STORY,
+        type: TaskType.WORK,
         priority: TaskPriority.MEDIUM,
         storyPoints: 13,
         originalEstimate: 1440,

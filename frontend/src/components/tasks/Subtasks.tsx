@@ -424,13 +424,11 @@ export default function Subtasks({
   };
 
   const getTypeColor = (type: string) => {
-    const typeColors = {
+    const typeColors: Record<string, string> = {
       task: "#3B82F6",
-      bug: "#EF4444",
-      epic: "#8B5CF6",
-      story: "#10B981",
+      subtask: "#F97316",
     };
-    return typeColors[type?.toLowerCase() as keyof typeof typeColors] || "#6B7280";
+    return typeColors[type?.toLowerCase()] || "#6B7280";
   };
 
   const getStatusColor = (statusId: string) => {

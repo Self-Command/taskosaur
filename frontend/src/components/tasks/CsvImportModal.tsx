@@ -40,7 +40,7 @@ interface ParsedTask {
 }
 
 const VALID_PRIORITIES = ["LOW", "MEDIUM", "HIGH", "HIGHEST"];
-const VALID_TYPES = ["TASK", "BUG", "STORY", "EPIC"];
+const VALID_TYPES = ["TASK", "HABIT", "STUDY", "WORK", "LIFE", "GOAL", "EVENT", "NOTE", "PROJECT"];
 
 function parseCsvLine(line: string): string[] {
     const result: string[] = [];

@@ -210,7 +210,7 @@ describe('TasksController (e2e)', () => {
         projectId: projectId,
         statusId: statusId,
         priority: 'HIGHEST',
-        type: 'STORY',
+        type: 'TASK',
         sprintId: sprintId,
         parentTaskId: parentTaskId,
         assigneeIds: [user.id, user2.id],
@@ -1230,12 +1230,12 @@ describe('TasksController (e2e)', () => {
           {
             title: 'Bulk Task 2',
             description: 'Second bulk task',
-            type: 'STORY',
+            type: 'TASK',
             priority: 'HIGH',
           },
           {
             title: 'Bulk Task 3',
-            type: 'BUG',
+            type: 'TASK',
             priority: 'CRITICAL',
             dueDate: new Date(Date.now() + 86400000).toISOString(),
           },
@@ -1266,9 +1266,9 @@ describe('TasksController (e2e)', () => {
             priority: 'LOW',
           },
           { title: '', description: 'Empty title should fail', type: 'TASK', priority: 'MEDIUM' },
-          { title: 'Valid Task 2', type: 'STORY', priority: 'HIGH' },
+          { title: 'Valid Task 2', type: 'TASK', priority: 'HIGH' },
           { title: 'A'.repeat(501), description: 'Title too long', type: 'TASK', priority: 'LOW' },
-          { title: 'Valid Task 3', type: 'BUG', priority: 'CRITICAL' },
+          { title: 'Valid Task 3', type: 'TASK', priority: 'CRITICAL' },
         ],
       };
 
@@ -1378,7 +1378,7 @@ describe('TasksController (e2e)', () => {
         statusId,
         sprintId,
         tasks: [
-          { title: 'Sprint Task 1', type: 'STORY', priority: 'MEDIUM' },
+          { title: 'Sprint Task 1', type: 'TASK', priority: 'MEDIUM' },
           { title: 'Sprint Task 2', type: 'TASK', priority: 'LOW' },
         ],
       };

@@ -14,22 +14,21 @@ export interface KPIMetrics {
   totalTasks: number;
   completedTasks: number;
   overdueTasks: number;
-  totalBugs: number;
-  resolvedBugs: number;
   activeSprints: number;
   projectCompletionRate: number;
   taskCompletionRate: number;
-  bugResolutionRate: number;
+  onTimeCompletionRate: number;
   overallProductivity: number;
 }
 
 export interface QualityMetrics {
-  totalBugs: number;
-  resolvedBugs: number;
-  criticalBugs: number;
-  resolvedCriticalBugs: number;
-  bugResolutionRate: number;
-  criticalBugResolutionRate: number;
+  totalTasks: number;
+  completedTasks: number;
+  criticalTasks: number;
+  resolvedCriticalTasks: number;
+  overdueTasks: number;
+  completionRate: number;
+  criticalCompletionRate: number;
 }
 
 export interface WorkspaceProjectCount {
@@ -228,8 +227,7 @@ export class OrganizationChartsService {
         totalTasks,
         completedTasks,
         overdueTasks,
-        totalBugs,
-        resolvedBugs,
+        completedWithDueDate,
         activeSprints,
       ] = await Promise.all([
         this.prisma.workspace.count({
@@ -276,18 +274,13 @@ export class OrganizationChartsService {
             completedAt: null,
           },
         }),
-        this.prisma.task.count({
+        this.prisma.task.findMany({
           where: {
             project: { workspace: { organizationId: orgId }, archive: false },
-            type: 'BUG',
-          },
-        }),
-        this.prisma.task.count({
-          where: {
-            project: { workspace: { organizationId: orgId }, archive: false },
-            type: 'BUG',
             completedAt: { not: null },
+            dueDate: { not: null },
           },
+          select: { completedAt: true, dueDate: true },
         }),
         this.prisma.sprint.count({
           where: {
@@ -297,6 +290,11 @@ export class OrganizationChartsService {
           },
         }),
       ]);
+
+      const onTimeCompleted = completedWithDueDate.filter(
+        (t) => t.completedAt! <= t.dueDate!,
+      ).length;
+      const totalWithDueDate = completedWithDueDate.length;
 
       return {
         totalWorkspaces,
@@ -308,12 +306,10 @@ export class OrganizationChartsService {
         totalTasks,
         completedTasks,
         overdueTasks,
-        totalBugs,
-        resolvedBugs,
         activeSprints,
         projectCompletionRate: this.calculatePercentage(completedProjects, totalProjects),
         taskCompletionRate: this.calculatePercentage(completedTasks, totalTasks),
-        bugResolutionRate: this.calculatePercentage(resolvedBugs, totalBugs),
+        onTimeCompletionRate: this.calculatePercentage(onTimeCompleted, totalWithDueDate),
         overallProductivity: this.calculatePercentage(completedTasks, totalTasks),
       };
     }
@@ -330,8 +326,7 @@ export class OrganizationChartsService {
       totalTasks,
       completedTasks,
       overdueTasks,
-      totalBugs,
-      resolvedBugs,
+      completedWithDueDate,
       activeSprints,
       totalMembers,
     ] = await Promise.all([
@@ -355,13 +350,13 @@ export class OrganizationChartsService {
           completedAt: null,
         },
       }),
-      this.prisma.task.count({ where: { ...scoped.taskForUser, type: 'BUG' } }),
-      this.prisma.task.count({
+      this.prisma.task.findMany({
         where: {
           ...scoped.taskForUser,
-          type: 'BUG',
           completedAt: { not: null },
+          dueDate: { not: null },
         },
+        select: { completedAt: true, dueDate: true },
       }),
       this.prisma.sprint.count({
         where: { ...scoped.sprintForUser, status: 'ACTIVE' },
@@ -370,6 +365,11 @@ export class OrganizationChartsService {
         where: { organizationId: orgId },
       }),
     ]);
+
+    const onTimeCompleted = completedWithDueDate.filter(
+      (t) => t.completedAt! <= t.dueDate!,
+    ).length;
+    const totalWithDueDate = completedWithDueDate.length;
 
     return {
       totalWorkspaces,
@@ -381,12 +381,10 @@ export class OrganizationChartsService {
       totalTasks,
       completedTasks,
       overdueTasks,
-      totalBugs,
-      resolvedBugs,
       activeSprints,
       projectCompletionRate: this.calculatePercentage(completedProjects, totalProjects),
       taskCompletionRate: this.calculatePercentage(completedTasks, totalTasks),
-      bugResolutionRate: this.calculatePercentage(resolvedBugs, totalBugs),
+      onTimeCompletionRate: this.calculatePercentage(onTimeCompleted, totalWithDueDate),
       overallProductivity: this.calculatePercentage(completedTasks, totalTasks),
     };
   }
@@ -522,14 +520,13 @@ export class OrganizationChartsService {
     });
   }
 
-  /**
-   * 7) Quality Metrics (bugs)
+/**
+   * 7) Quality Metrics (general task quality)
    */
   async organizationQualityMetrics(orgId: string, userId: string): Promise<QualityMetrics> {
     const { isElevated } = await this.accessControl.getOrgAccess(orgId, userId);
     const base = {
       project: { workspace: { organizationId: orgId }, archive: false },
-      type: 'BUG' as const,
     };
     const where = isElevated
       ? base
@@ -541,7 +538,9 @@ export class OrganizationChartsService {
           ],
         };
 
-    const [totalBugs, resolvedBugs, criticalBugs, resolvedCriticalBugs] = await Promise.all([
+    const now = new Date();
+
+    const [totalTasks, completedTasks, criticalTasks, resolvedCriticalTasks, overdueTasks] = await Promise.all([
       this.prisma.task.count({ where }),
       this.prisma.task.count({
         where: { ...where, completedAt: { not: null } },
@@ -556,15 +555,19 @@ export class OrganizationChartsService {
           completedAt: { not: null },
         },
       }),
+      this.prisma.task.count({
+        where: { ...where, dueDate: { lt: now }, completedAt: null },
+      }),
     ]);
 
     return {
-      totalBugs,
-      resolvedBugs,
-      criticalBugs,
-      resolvedCriticalBugs,
-      bugResolutionRate: this.calculatePercentage(resolvedBugs, totalBugs),
-      criticalBugResolutionRate: this.calculatePercentage(resolvedCriticalBugs, criticalBugs),
+      totalTasks,
+      completedTasks,
+      criticalTasks,
+      resolvedCriticalTasks,
+      overdueTasks,
+      completionRate: this.calculatePercentage(completedTasks, totalTasks),
+      criticalCompletionRate: this.calculatePercentage(resolvedCriticalTasks, criticalTasks),
     };
   }
 

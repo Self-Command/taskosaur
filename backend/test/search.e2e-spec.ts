@@ -258,7 +258,7 @@ describe('SearchController (e2e)', () => {
         statusId: status.id,
         createdBy: user.id,
         priority: TaskPriority.HIGH,
-        type: TaskType.BUG,
+        type: TaskType.TASK,
         taskNumber: 1,
         slug: `auth-bug-fix-${Date.now()}`,
       },
@@ -273,7 +273,7 @@ describe('SearchController (e2e)', () => {
         statusId: status.id,
         createdBy: user.id,
         priority: TaskPriority.MEDIUM,
-        type: TaskType.STORY,
+        type: TaskType.TASK,
         taskNumber: 2,
         slug: `user-profile-${Date.now()}`,
       },
@@ -288,7 +288,7 @@ describe('SearchController (e2e)', () => {
         statusId: status.id,
         createdBy: otherUser.id,
         priority: TaskPriority.HIGHEST,
-        type: TaskType.BUG,
+        type: TaskType.TASK,
         taskNumber: 1,
         slug: `other-task-${Date.now()}`,
       },
@@ -384,7 +384,7 @@ describe('SearchController (e2e)', () => {
     it('should perform advanced search with filters', () => {
       const searchDto: AdvancedSearchDto = {
         query: 'bug',
-        taskTypes: [TaskType.BUG],
+        taskTypes: [TaskType.TASK],
         priorities: [TaskPriority.HIGH],
         organizationId: organizationId,
       };

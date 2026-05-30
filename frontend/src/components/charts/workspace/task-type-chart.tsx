@@ -5,11 +5,15 @@ import { ChartWrapper } from "../chart-wrapper";
 import { useRouter } from "next/router";
 
 const chartConfig = {
-  STORY: { label: "Story", color: "#10B981" },
   TASK: { label: "Task", color: "#3B82F6" },
-  BUG: { label: "Bug", color: "#EF4444" },
-  EPIC: { label: "Epic", color: "#8B5CF6" },
-  FEATURE: { label: "Feature", color: "#F59E0B" },
+  HABIT: { label: "Habit", color: "#14B8A6" },
+  STUDY: { label: "Study", color: "#6366F1" },
+  WORK: { label: "Work", color: "#F59E0B" },
+  LIFE: { label: "Life", color: "#EC4899" },
+  GOAL: { label: "Goal", color: "#8B5CF6" },
+  EVENT: { label: "Event", color: "#06B6D4" },
+  NOTE: { label: "Note", color: "#64748B" },
+  PROJECT: { label: "Project", color: "#8B5CF6" },
   SUBTASK: { label: "Subtask", color: "#F97316" },
 };
 

@@ -131,12 +131,22 @@ export default function TaskDetailModal({
 
   const getTaskTypeIcon = (type: string) => {
     switch (type) {
-      case "BUG":
-        return "🐛";
-      case "STORY":
-        return "📖";
-      case "EPIC":
+      case "HABIT":
+        return "💪";
+      case "STUDY":
+        return "📚";
+      case "WORK":
+        return "💼";
+      case "LIFE":
+        return "🌱";
+      case "GOAL":
         return "🎯";
+      case "EVENT":
+        return "📅";
+      case "NOTE":
+        return "📝";
+      case "PROJECT":
+        return "📊";
       case "SUBTASK":
         return "📝";
       default:

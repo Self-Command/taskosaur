@@ -22,11 +22,16 @@
       "title": "Task Type Distribution",
       "description": "Types of tasks in this project",
       "types": {
-        "story": "Story",
         "task": "Task",
-        "bug": "Bug",
-        "epic": "Epic",
-        "feature": "Feature"
+        "habit": "Habit",
+        "study": "Study",
+        "work": "Work",
+        "life": "Life",
+        "goal": "Goal",
+        "event": "Event",
+        "note": "Note",
+        "project": "Project",
+        "subtask": "Subtask"
       }
     },
     "task_priority_distribution": {
@@ -65,20 +70,20 @@
       "label": "Active Sprints",
       "description": "Currently running"
     },
-    "bug_resolution": {
-      "title": "Bug Resolution",
-      "label": "Bug Resolution",
-      "description": "{{resolved}}/{{total}} bugs fixed"
+    "on_time_completion": {
+      "title": "On-Time Completion",
+      "label": "On-Time Completion",
+      "description": "On-time completion rate"
     },
     "task_completion": {
       "title": "Task Completion",
       "label": "Task Completion",
       "description": "Overall progress"
     },
-    "open_bugs": {
-      "title": "Open Bugs",
-      "label": "Open Bugs",
-      "description": "Requiring attention"
+    "overdue_tasks": {
+      "title": "Overdue Tasks",
+      "label": "Overdue Tasks",
+      "description": "Tasks past their due date"
     }
   }
 }

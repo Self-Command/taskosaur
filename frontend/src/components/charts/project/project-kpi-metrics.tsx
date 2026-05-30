@@ -1,5 +1,5 @@
 import { StatCard } from "@/components/common/StatCard";
-import { CheckCircle, AlertTriangle, TrendingUp, Bug, Zap, Clock } from "lucide-react";
+import { CheckCircle, AlertTriangle, TrendingUp, Zap, Clock } from "lucide-react";
 import { useState, useMemo } from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
@@ -26,10 +26,9 @@ interface ProjectKPIMetricsProps {
     totalTasks: number;
     completedTasks: number;
     activeSprints: number;
-    totalBugs: number;
-    resolvedBugs: number;
+    overdueTasks: number;
     completionRate: number;
-    bugResolutionRate: number;
+    onTimeCompletionRate: number;
   };
   taskStatus?: any[];
 }
@@ -89,9 +88,9 @@ export function ProjectKPIMetrics({ data, taskStatus }: ProjectKPIMetricsProps) 
     "total-tasks",
     "completed-tasks",
     "active-sprints",
-    "bug-resolution",
+    "on-time-completion",
     "task-completion",
-    "open-bugs",
+    "overdue-tasks",
   ]);
 
   const doneStatusIds = useMemo(() => {
@@ -175,18 +174,20 @@ export function ProjectKPIMetrics({ data, taskStatus }: ProjectKPIMetricsProps) 
             icon: <Zap className="h-4 w-4" />,
             onClick: () => handleNavigate("/sprints"),
           };
-        case "bug-resolution":
+        case "on-time-completion":
           return {
             id,
-            title: t("kpi.bug_resolution.title"),
-            label: t("kpi.bug_resolution.label"),
-            value: `${data?.bugResolutionRate.toFixed(1)}%`,
-            description: t("kpi.bug_resolution.description", {
-              resolved: data?.resolvedBugs,
-              total: data?.totalBugs,
-            }),
-            icon: <Bug className="h-4 w-4" />,
-            onClick: () => handleNavigate("/tasks",  doneStatusIds ? { statuses: doneStatusIds, types: "BUG" } : {}),
+            title: t("kpi.on_time_completion.title"),
+            label: t("kpi.on_time_completion.label"),
+            value: `${data?.onTimeCompletionRate.toFixed(1)}%`,
+            description: t("kpi.on_time_completion.description"),
+            icon:
+              data?.onTimeCompletionRate > 75 ? (
+                <TrendingUp className="h-4 w-4" />
+              ) : (
+                <Clock className="h-4 w-4" />
+              ),
+            onClick: () => handleNavigate("/tasks", doneStatusIds ? { statuses: doneStatusIds } : {}),
           };
         case "task-completion":
           return {
@@ -203,20 +204,20 @@ export function ProjectKPIMetrics({ data, taskStatus }: ProjectKPIMetricsProps) 
               ),
             onClick: () => handleNavigate("/tasks", doneStatusIds ? { statuses: doneStatusIds } : {}),
           };
-        case "open-bugs":
+        case "overdue-tasks":
           return {
             id,
-            title: t("kpi.open_bugs.title"),
-            label: t("kpi.open_bugs.label"),
-            value: data?.totalBugs - data?.resolvedBugs,
-            description: t("kpi.open_bugs.description"),
+            title: t("kpi.overdue_tasks.title"),
+            label: t("kpi.overdue_tasks.label"),
+            value: data?.overdueTasks,
+            description: t("kpi.overdue_tasks.description"),
             icon:
-              data?.totalBugs - data?.resolvedBugs === 0 ? (
+              data?.overdueTasks === 0 ? (
                 <CheckCircle className="h-4 w-4" />
               ) : (
-                <Bug className="h-4 w-4" />
+                <Clock className="h-4 w-4" />
               ),
-            onClick: () => handleNavigate("/tasks", openStatusIds ? { types: "BUG", statuses: openStatusIds } : {} ),
+            onClick: () => handleNavigate("/tasks", openStatusIds ? { statuses: openStatusIds } : {}),
           };
         default:
           return null;

@@ -10,11 +10,15 @@ import { ChartWrapper } from "../chart-wrapper";
 import { useTranslation } from "react-i18next";
 
 const chartConfig = {
-  STORY: { label: "Story", color: "#10B981" },
   TASK: { label: "Task", color: "#3B82F6" },
-  BUG: { label: "Bug", color: "#EF4444" },
-  EPIC: { label: "Epic", color: "#8B5CF6" },
-  FEATURE: { label: "Feature", color: "#F59E0B" },
+  HABIT: { label: "Habit", color: "#14B8A6" },
+  STUDY: { label: "Study", color: "#6366F1" },
+  WORK: { label: "Work", color: "#F59E0B" },
+  LIFE: { label: "Life", color: "#EC4899" },
+  GOAL: { label: "Goal", color: "#8B5CF6" },
+  EVENT: { label: "Event", color: "#06B6D4" },
+  NOTE: { label: "Note", color: "#64748B" },
+  PROJECT: { label: "Project", color: "#8B5CF6" },
 };
 
 interface TaskTypeChartProps {
@@ -26,11 +30,15 @@ export function TaskTypeChart({ data }: TaskTypeChartProps) {
   const safeData = Array.isArray(data) ? data : [];
   
   const translatedConfig = {
-    STORY: { label: t("charts.task_type_distribution.types.story"), color: chartConfig.STORY.color },
     TASK: { label: t("charts.task_type_distribution.types.task"), color: chartConfig.TASK.color },
-    BUG: { label: t("charts.task_type_distribution.types.bug"), color: chartConfig.BUG.color },
-    EPIC: { label: t("charts.task_type_distribution.types.epic"), color: chartConfig.EPIC.color },
-    FEATURE: { label: t("charts.task_type_distribution.types.feature"), color: chartConfig.FEATURE.color },
+    HABIT: { label: t("charts.task_type_distribution.types.habit"), color: chartConfig.HABIT.color },
+    STUDY: { label: t("charts.task_type_distribution.types.study"), color: chartConfig.STUDY.color },
+    WORK: { label: t("charts.task_type_distribution.types.work"), color: chartConfig.WORK.color },
+    LIFE: { label: t("charts.task_type_distribution.types.life"), color: chartConfig.LIFE.color },
+    GOAL: { label: t("charts.task_type_distribution.types.goal"), color: chartConfig.GOAL.color },
+    EVENT: { label: t("charts.task_type_distribution.types.event"), color: chartConfig.EVENT.color },
+    NOTE: { label: t("charts.task_type_distribution.types.note"), color: chartConfig.NOTE.color },
+    PROJECT: { label: t("charts.task_type_distribution.types.project"), color: chartConfig.PROJECT.color },
   };
 
   const chartData = safeData.map((item) => ({
@@ -39,7 +47,7 @@ export function TaskTypeChart({ data }: TaskTypeChartProps) {
     color: translatedConfig[item.type as keyof typeof translatedConfig]?.color || "#8B5CF6",
   }));
 
-  const typeOrder = ["STORY", "TASK", "BUG", "FEATURE", "EPIC"];
+  const typeOrder = ["TASK", "HABIT", "STUDY", "WORK", "LIFE", "GOAL", "EVENT", "NOTE", "PROJECT"];
   const sortedChartData =
     chartData &&
     [...chartData].sort((a, b) => {

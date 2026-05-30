@@ -59,7 +59,9 @@ const PRIORITY_LABELS: Record<string, string> = {
   LOW: "Low", LOWEST: "Lowest", URGENT: "Urgent",
 };
 const TYPE_LABELS: Record<string, string> = {
-  TASK: "Task", BUG: "Bug", EPIC: "Epic", STORY: "Story", SUBTASK: "Sub-task",
+  TASK: "Task", HABIT: "Habit", STUDY: "Study", WORK: "Work",
+  LIFE: "Life", GOAL: "Goal", EVENT: "Event", NOTE: "Note",
+  PROJECT: "Project", SUBTASK: "Sub-task",
 };
 
 function formatGroupDate(date: string | Date | null | undefined): { key: string; label: string } {

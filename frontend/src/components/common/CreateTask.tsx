@@ -399,7 +399,7 @@ export default function CreateTask({ projectSlug, workspace, projects }: CreateT
         title: formData.title.trim(),
         description: formData.description.trim() || "",
         priority: formData.priority.toUpperCase() as "LOW" | "MEDIUM" | "HIGH" | "HIGHEST",
-        type: formData.type as "TASK" | "BUG" | "EPIC" | "STORY" | "SUBTASK",
+        type: formData.type as "TASK" | "HABIT" | "STUDY" | "WORK" | "LIFE" | "GOAL" | "EVENT" | "NOTE" | "PROJECT" | "SUBTASK",
         storyPoints: formData.storyPoints ? parseInt(formData.storyPoints) : undefined,
         startDate: formData.startDate ? formatDateForApi(formData.startDate)
           : formatDateForApi(getTodayDate()),
@@ -793,9 +793,14 @@ export default function CreateTask({ projectSlug, workspace, projects }: CreateT
                   <SelectContent className="border-[var(--border)] bg-[var(--popover)]">
                     {[
                       { value: "TASK", name: "Task" },
-                      { value: "BUG", name: "Bug" },
-                      { value: "EPIC", name: "Epic" },
-                      { value: "STORY", name: "Story" },
+                      { value: "HABIT", name: "Habit" },
+                      { value: "STUDY", name: "Study" },
+                      { value: "WORK", name: "Work" },
+                      { value: "LIFE", name: "Life" },
+                      { value: "GOAL", name: "Goal" },
+                      { value: "EVENT", name: "Event" },
+                      { value: "NOTE", name: "Note" },
+                      { value: "PROJECT", name: "Project" },
                       { value: "SUBTASK", name: "Subtask" },
                     ].map((type) => (
                       <SelectItem

@@ -50,12 +50,12 @@ test.describe('Task Filtering', () => {
   test('should filter tasks by type', async ({ page }) => {
     const filterPanel = await openFilterDropdown(page);
     await filterPanel.getByText('Type').click();
-    await filterPanel.getByText('Bug').first().click();
+    await filterPanel.getByText('Task').first().click();
 
     await page.keyboard.press('Escape');
     await page.waitForLoadState('networkidle');
 
-    await expect(page).toHaveURL(/types=BUG/i, { timeout: 10000 });
+    await expect(page).toHaveURL(/types=TASK/i, { timeout: 10000 });
   });
 
   test('should search tasks by title', async ({ page }) => {

@@ -9,6 +9,18 @@
   "success": "Sucesso",
   "minutes": "{{count}} minuto",
   "minutes_plural": "{{count}} minutos",
+  "taskTypes": {
+    "task": "Tarefa",
+    "habit": "Hábito",
+    "study": "Estudo",
+    "work": "Trabalho",
+    "life": "Vida",
+    "goal": "Objetivo",
+    "event": "Evento",
+    "note": "Nota",
+    "project": "Projeto",
+    "subtask": "Subtarefa"
+  },
   "priorities": {
     "lowest": "Muito Baixa",
     "low": "Baixa",

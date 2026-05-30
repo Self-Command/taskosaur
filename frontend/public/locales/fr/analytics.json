@@ -22,11 +22,16 @@
       "title": "Répartition par type de tâche",
       "description": "Types de tâches dans ce projet",
       "types": {
-        "story": "Story",
         "task": "Tâche",
-        "bug": "Bug",
-        "epic": "Epic",
-        "feature": "Fonctionnalité"
+        "habit": "Habitude",
+        "study": "Étude",
+        "work": "Travail",
+        "life": "Vie",
+        "goal": "Objectif",
+        "event": "Événement",
+        "note": "Note",
+        "project": "Projet",
+        "subtask": "Sous-tâche"
       }
     },
     "task_priority_distribution": {
@@ -65,20 +70,20 @@
       "label": "Sprints actifs",
       "description": "En cours d'exécution"
     },
-    "bug_resolution": {
-      "title": "Résolution de bugs",
-      "label": "Résolution de bugs",
-      "description": "{{resolved}}/{{total}} bugs corrigés"
+    "on_time_completion": {
+      "title": "Achèvement dans les Délais",
+      "label": "Achèvement dans les Délais",
+      "description": "Taux d'achèvement dans les délais"
     },
     "task_completion": {
       "title": "Achèvement des tâches",
       "label": "Achèvement des tâches",
       "description": "Progression globale"
     },
-    "open_bugs": {
-      "title": "Bugs ouverts",
-      "label": "Bugs ouverts",
-      "description": "Nécessitant une attention"
+    "overdue_tasks": {
+      "title": "Tâches en Retard",
+      "label": "Tâches en Retard",
+      "description": "Tâches ayant dépassé leur date d'échéance"
     }
   }
 }

@@ -81,7 +81,7 @@ export class TaskCommentsSeederService {
 
   private getCommentsDataForTask(task: Task) {
     // Different comment patterns based on task type
-    if (task.type === 'BUG') {
+    if (task.type === 'TASK') {
       return [
         {
           content: `I can reproduce this issue consistently. It happens when the user tries to ${this.getRandomAction()}. The error occurs in the browser console.`,
@@ -95,7 +95,7 @@ export class TaskCommentsSeederService {
             'Fixed the issue by updating the validation logic. The problem was with how we handle edge cases in user input.',
         },
       ];
-    } else if (task.type === 'STORY') {
+    } else if (task.type === 'STUDY') {
       return [
         {
           content:
@@ -110,7 +110,7 @@ export class TaskCommentsSeederService {
             "The implementation is progressing well. I've completed about 70% of the functionality.",
         },
       ];
-    } else if (task.type === 'EPIC') {
+    } else if (task.type === 'GOAL') {
       return [
         {
           content:

@@ -233,9 +233,14 @@ export default function CompletedConfigView({
                 </SelectTrigger>
                 <SelectContent className="bg-[var(--card)] border-[var(--border)]">
                   <SelectItem value="TASK">Task</SelectItem>
-                  <SelectItem value="BUG">Bug</SelectItem>
-                  <SelectItem value="EPIC">Epic</SelectItem>
-                  <SelectItem value="STORY">Story</SelectItem>
+                  <SelectItem value="HABIT">Habit</SelectItem>
+                  <SelectItem value="STUDY">Study</SelectItem>
+                  <SelectItem value="WORK">Work</SelectItem>
+                  <SelectItem value="LIFE">Life</SelectItem>
+                  <SelectItem value="GOAL">Goal</SelectItem>
+                  <SelectItem value="EVENT">Event</SelectItem>
+                  <SelectItem value="NOTE">Note</SelectItem>
+                  <SelectItem value="PROJECT">Project</SelectItem>
                   <SelectItem value="SUBTASK">Subtask</SelectItem>
                 </SelectContent>
               </Select>

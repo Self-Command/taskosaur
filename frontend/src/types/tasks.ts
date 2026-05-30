@@ -298,9 +298,14 @@ export interface AssignMultipleLabelsRequest {
 }
 export enum TaskType {
   TASK = "TASK",
-  BUG = "BUG",
-  EPIC = "EPIC",
-  STORY = "STORY",
+  HABIT = "HABIT",
+  STUDY = "STUDY",
+  WORK = "WORK",
+  LIFE = "LIFE",
+  GOAL = "GOAL",
+  EVENT = "EVENT",
+  NOTE = "NOTE",
+  PROJECT = "PROJECT",
   SUBTASK = "SUBTASK",
 }
 

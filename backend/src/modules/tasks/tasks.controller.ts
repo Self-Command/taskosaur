@@ -256,8 +256,8 @@ export class TasksController {
         },
         type: {
           type: 'string',
-          enum: ['TASK', 'BUG', 'STORY', 'EPIC', 'SUBTASK'],
-          example: 'STORY',
+          enum: ['TASK', 'HABIT', 'STUDY', 'WORK', 'LIFE', 'GOAL', 'EVENT', 'NOTE', 'PROJECT', 'SUBTASK'],
+          example: 'TASK',
           description: 'Type of task',
         },
         priority: {
@@ -375,7 +375,7 @@ export class TasksController {
         title: 'Implement user authentication system',
         slug: 'PROJECT-1',
         taskNumber: 1,
-        type: 'STORY',
+        type: 'TASK',
         priority: 'HIGH',
         description: 'Create JWT-based authentication...',
         startDate: '2024-01-15T09:00:00.000Z',
@@ -515,7 +515,7 @@ export class TasksController {
     name: 'types',
     required: false,
     description: 'Filter by task types (comma-separated)',
-    example: 'TASK,BUG',
+    example: 'TASK,HABIT',
   })
   @ApiQuery({
     name: 'search',
@@ -634,7 +634,7 @@ export class TasksController {
     name: 'types',
     required: false,
     description: 'Filter by task types (comma-separated)',
-    example: 'TASK,BUG',
+    example: 'TASK,HABIT',
   })
   @ApiQuery({
     name: 'search',

@@ -251,7 +251,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
         statuses: { type: 'string', description: 'Comma-separated status IDs / 状态 ID' },
         types: {
           type: 'string',
-          description: 'Comma-separated: TASK,BUG,STORY,EPIC,SUBTASK / 任务类型',
+          description: 'Comma-separated: TASK,HABIT,STUDY,WORK,LIFE,GOAL,EVENT,NOTE,PROJECT,SUBTASK / 任务类型',
         },
         search: { type: 'string', description: 'Search in title/description / 搜索标题/描述' },
         page: { type: 'number', description: 'Page number (default 1) / 页码' },
@@ -287,7 +287,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
         statusId: { type: 'string', description: 'Status ID (UUID) / 状态 ID' },
         type: {
           type: 'string',
-          enum: ['TASK', 'BUG', 'STORY', 'EPIC', 'SUBTASK'],
+          enum: ['TASK', 'HABIT', 'STUDY', 'WORK', 'LIFE', 'GOAL', 'EVENT', 'NOTE', 'PROJECT', 'SUBTASK'],
           description: 'Task type / 任务类型',
         },
         priority: {
@@ -333,7 +333,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
         taskId: { type: 'string', description: 'Task ID (UUID) / 任务 ID' },
         title: { type: 'string', description: 'New title / 新标题' },
         description: { type: 'string', description: 'New description / 新描述' },
-        type: { type: 'string', enum: ['TASK', 'BUG', 'STORY', 'EPIC', 'SUBTASK'] },
+        type: { type: 'string', enum: ['TASK', 'HABIT', 'STUDY', 'WORK', 'LIFE', 'GOAL', 'EVENT', 'NOTE', 'PROJECT', 'SUBTASK'] },
         priority: { type: 'string', enum: ['LOWEST', 'LOW', 'MEDIUM', 'HIGH', 'HIGHEST'] },
         statusId: { type: 'string', description: 'New status ID / 新状态 ID' },
         startDate: { type: 'string' },

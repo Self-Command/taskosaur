@@ -22,11 +22,16 @@
       "title": "Distribuição por Tipo de Tarefa",
       "description": "Tipos de tarefas neste projeto",
       "types": {
-        "story": "História",
         "task": "Tarefa",
-        "bug": "Erro",
-        "epic": "Épico",
-        "feature": "Funcionalidade"
+        "habit": "Hábito",
+        "study": "Estudo",
+        "work": "Trabalho",
+        "life": "Vida",
+        "goal": "Objetivo",
+        "event": "Evento",
+        "note": "Nota",
+        "project": "Projeto",
+        "subtask": "Subtarefa"
       }
     },
     "task_priority_distribution": {
@@ -65,20 +70,20 @@
       "label": "Sprints Ativas",
       "description": "Atualmente em execução"
     },
-    "bug_resolution": {
-      "title": "Resolução de Erros",
-      "label": "Resolução de Erros",
-      "description": "{{resolved}}/{{total}} erros corrigidos"
+    "on_time_completion": {
+      "title": "Conclusão no Prazo",
+      "label": "Conclusão no Prazo",
+      "description": "Taxa de conclusão no prazo"
     },
     "task_completion": {
       "title": "Conclusão de Tarefas",
       "label": "Conclusão de Tarefas",
       "description": "Progresso geral"
     },
-    "open_bugs": {
-      "title": "Erros Abertos",
-      "label": "Erros Abertos",
-      "description": "Exigindo atenção"
+    "overdue_tasks": {
+      "title": "Tarefas Atrasadas",
+      "label": "Tarefas Atrasadas",
+      "description": "Tarefas que passaram da data de vencimento"
     }
   }
 }

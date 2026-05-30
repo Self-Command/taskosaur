@@ -8,7 +8,7 @@ export interface InboxFormData {
   autoCreateTask: boolean;
   autoReplyEnabled: boolean;
   autoReplyTemplate: string;
-  defaultTaskType: "TASK" | "BUG" | "EPIC" | "STORY" | "SUBTASK";
+  defaultTaskType: "TASK" | "HABIT" | "STUDY" | "WORK" | "LIFE" | "GOAL" | "EVENT" | "NOTE" | "PROJECT" | "SUBTASK";
   defaultPriority: "LOWEST" | "LOW" | "MEDIUM" | "HIGH" | "HIGHEST";
   defaultStatusId: string;
   defaultAssigneeId: string;

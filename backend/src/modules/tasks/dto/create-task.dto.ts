@@ -42,7 +42,7 @@ export class CreateTaskDto {
   @ApiProperty({
     description: 'Type of task',
     enum: TaskType,
-    example: TaskType.STORY,
+    example: TaskType.TASK,
     required: false,
     default: TaskType.TASK,
   })

@@ -74,9 +74,14 @@
   },
   "taskTypes": {
     "task": "Task",
-    "bug": "Bug",
-    "epic": "Epic",
-    "story": "Story",
+    "habit": "Habit",
+    "study": "Study",
+    "work": "Work",
+    "life": "Life",
+    "goal": "Goal",
+    "event": "Event",
+    "note": "Note",
+    "project": "Project",
     "subtask": "Subtask"
   },
   "priorities": {

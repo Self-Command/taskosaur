@@ -22,11 +22,16 @@
       "title": "任务类型分布",
       "description": "此项目中的任务类型",
       "types": {
-        "story": "故事",
         "task": "任务",
-        "bug": "缺陷",
-        "epic": "史诗",
-        "feature": "功能"
+        "habit": "习惯",
+        "study": "学习",
+        "work": "工作",
+        "life": "生活",
+        "goal": "目标",
+        "event": "日程",
+        "note": "便签",
+        "project": "项目",
+        "subtask": "子任务"
       }
     },
     "task_priority_distribution": {
@@ -65,20 +70,20 @@
       "label": "活跃冲刺",
       "description": "当前正在运行"
     },
-    "bug_resolution": {
-      "title": "缺陷解决率",
-      "label": "缺陷解决率",
-      "description": "{{resolved}}/{{total}} 缺陷已修复"
+    "on_time_completion": {
+      "title": "按时完成率",
+      "label": "按时完成率",
+      "description": "按时完成任务的比例"
     },
     "task_completion": {
       "title": "任务完成率",
       "label": "任务完成率",
       "description": "总体进度"
     },
-    "open_bugs": {
-      "title": "未解决缺陷",
-      "label": "未解决缺陷",
-      "description": "需要关注"
+    "overdue_tasks": {
+      "title": "逾期任务",
+      "label": "逾期任务",
+      "description": "已超过截止日期的任务"
     }
   }
 }

@@ -65,9 +65,14 @@ export class TasksService {
     // Map string values to enum explicitly
     const typeMap: Record<string, TaskType> = {
       TASK: TaskType.TASK,
-      STORY: TaskType.STORY,
-      BUG: TaskType.BUG,
-      EPIC: TaskType.EPIC,
+      HABIT: TaskType.HABIT,
+      STUDY: TaskType.STUDY,
+      WORK: TaskType.WORK,
+      LIFE: TaskType.LIFE,
+      GOAL: TaskType.GOAL,
+      EVENT: TaskType.EVENT,
+      NOTE: TaskType.NOTE,
+      PROJECT: TaskType.PROJECT,
       SUBTASK: TaskType.SUBTASK,
     };
     return typeMap[value] || TaskType.TASK;
@@ -2181,9 +2186,14 @@ export class TasksService {
       case GroupByField.TYPE: {
         const TYPE_LABELS: Record<string, string> = {
           TASK: 'Task',
-          BUG: 'Bug',
-          EPIC: 'Epic',
-          STORY: 'Story',
+          HABIT: 'Habit',
+          STUDY: 'Study',
+          WORK: 'Work',
+          LIFE: 'Life',
+          GOAL: 'Goal',
+          EVENT: 'Event',
+          NOTE: 'Note',
+          PROJECT: 'Project',
           SUBTASK: 'Sub-task',
         };
         const counts = await this.prisma.task.groupBy({

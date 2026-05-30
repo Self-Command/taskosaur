@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
-import { Building2, FolderOpen, Users, CheckCircle, Bug, Zap, Clock } from "lucide-react";
+import { Building2, FolderOpen, Users, CheckCircle, TrendingUp, Zap, Clock } from "lucide-react";
 import { StatCard } from "@/components/common/StatCard";
 import {
   DndContext,
@@ -33,12 +33,10 @@ interface OrganizationKPIMetricsProps {
     totalTasks: number;
     completedTasks: number;
     overdueTasks: number;
-    totalBugs: number;
-    resolvedBugs: number;
     activeSprints: number;
     projectCompletionRate: number;
     taskCompletionRate: number;
-    bugResolutionRate: number;
+    onTimeCompletionRate: number;
     overallProductivity: number;
   };
   visibleCards?: Array<{
@@ -67,7 +65,7 @@ const STATIC_CARD_CONFIG: KPICardConfig[] = [
     defaultLabelKey: "task_completion",
     icon: <CheckCircle className="h-4 w-4" />,
   },
-  { id: "bug-resolution", defaultLabelKey: "bug_resolution", icon: <Bug className="h-4 w-4" /> },
+  { id: "on-time-completion", defaultLabelKey: "on_time_completion", icon: <TrendingUp className="h-4 w-4" /> },
   { id: "overdue-tasks", defaultLabelKey: "overdue_tasks", icon: <Clock className="h-4 w-4" /> },
   { id: "active-sprints", defaultLabelKey: "active_sprints", icon: <Zap className="h-4 w-4" /> },
   {
@@ -205,9 +203,9 @@ export function OrganizationKPIMetrics({
             value = `${(data?.taskCompletionRate ?? 0).toFixed(1)}%`;
             description = t("analytics.kpi_cards.descriptions.tasks_count", { completed: data?.completedTasks ?? 0, total: data?.totalTasks ?? 0 });
             break;
-          case "bug-resolution":
-            value = `${(data?.bugResolutionRate ?? 0).toFixed(1)}%`;
-            description = t("analytics.kpi_cards.descriptions.resolved_count", { resolved: data?.resolvedBugs ?? 0, total: data?.totalBugs ?? 0 });
+          case "on-time-completion":
+            value = `${(data?.onTimeCompletionRate ?? 0).toFixed(1)}%`;
+            description = t("analytics.kpi_cards.descriptions.on_time_completion");
             break;
           case "overdue-tasks":
             value = data?.overdueTasks ?? 0;
@@ -239,8 +237,8 @@ export function OrganizationKPIMetrics({
           icon,
           link: id === "task-completion" && doneStatusIds
             ? `/tasks?statuses=${doneStatusIds}&types=TASK`
-            : id === "bug-resolution" && doneStatusIds
-            ? `/tasks?statuses=${doneStatusIds}&types=BUG`
+            : id === "on-time-completion" && doneStatusIds
+            ? `/tasks?statuses=${doneStatusIds}`
             : visibleCards.find((c) => c.id === id)?.link,
         };
       })

@@ -123,7 +123,7 @@ export class CreateProjectDto {
     description: 'Project configuration settings',
     example: {
       methodology: 'agile',
-      defaultTaskType: 'STORY',
+      defaultTaskType: 'TASK',
       enableTimeTracking: true,
       allowSubtasks: true,
       workflowId: 'default',

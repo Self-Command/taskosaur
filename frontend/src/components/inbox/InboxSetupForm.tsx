@@ -36,7 +36,7 @@ const inboxSetupSchema = z.object({
   autoReplyEnabled: z.boolean().optional(),
   autoReplyTemplate: z.string().optional(), // ✅ MUST BE PRESENT
   autoCreateTask: z.boolean().optional(),
-  defaultTaskType: z.enum(["TASK", "BUG", "EPIC", "STORY", "SUBTASK"]).optional(),
+  defaultTaskType: z.enum(["TASK", "HABIT", "STUDY", "WORK", "LIFE", "GOAL", "EVENT", "NOTE", "PROJECT", "SUBTASK"]).optional(),
   defaultPriority: z.enum(["LOWEST", "LOW", "MEDIUM", "HIGH", "HIGHEST"]).optional(),
   defaultStatusId: z.string().min(1, "Default status is required"),
 });
@@ -208,9 +208,14 @@ export default function InboxSetupForm({
                         </FormControl>
                         <SelectContent>
                           <SelectItem value="TASK">Task</SelectItem>
-                          <SelectItem value="BUG">Bug</SelectItem>
-                          <SelectItem value="EPIC">Epic</SelectItem>
-                          <SelectItem value="STORY">Story</SelectItem>
+                          <SelectItem value="HABIT">Habit</SelectItem>
+                          <SelectItem value="STUDY">Study</SelectItem>
+                          <SelectItem value="WORK">Work</SelectItem>
+                          <SelectItem value="LIFE">Life</SelectItem>
+                          <SelectItem value="GOAL">Goal</SelectItem>
+                          <SelectItem value="EVENT">Event</SelectItem>
+                          <SelectItem value="NOTE">Note</SelectItem>
+                          <SelectItem value="PROJECT">Project</SelectItem>
                           <SelectItem value="SUBTASK">Subtask</SelectItem>
                         </SelectContent>
                       </Select>

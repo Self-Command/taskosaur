@@ -10,11 +10,15 @@ import {
 import { ChartWrapper } from "../chart-wrapper";
 
 const chartConfig = {
-  STORY: { label: "task_types.story", color: "#10B981" },
   TASK: { label: "task_types.task", color: "#3B82F6" },
-  BUG: { label: "task_types.bug", color: "#EF4444" },
-  EPIC: { label: "task_types.epic", color: "#8B5CF6" },
-  FEATURE: { label: "task_types.feature", color: "#F59E0B" },
+  HABIT: { label: "task_types.habit", color: "#14B8A6" },
+  STUDY: { label: "task_types.study", color: "#6366F1" },
+  WORK: { label: "task_types.work", color: "#F59E0B" },
+  LIFE: { label: "task_types.life", color: "#EC4899" },
+  GOAL: { label: "task_types.goal", color: "#8B5CF6" },
+  EVENT: { label: "task_types.event", color: "#06B6D4" },
+  NOTE: { label: "task_types.note", color: "#64748B" },
+  PROJECT: { label: "task_types.project", color: "#8B5CF6" },
 };
 
 interface TaskTypeChartProps {

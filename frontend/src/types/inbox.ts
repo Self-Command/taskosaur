@@ -9,7 +9,7 @@ export interface ProjectInbox {
   autoReplyEnabled: boolean;
   autoReplyTemplate?: string;
   autoCreateTask: boolean;
-  defaultTaskType: "TASK" | "BUG" | "EPIC" | "STORY" | "SUBTASK";
+  defaultTaskType: "TASK" | "HABIT" | "STUDY" | "WORK" | "LIFE" | "GOAL" | "EVENT" | "NOTE" | "PROJECT" | "SUBTASK";
   defaultPriority: "LOWEST" | "LOW" | "MEDIUM" | "HIGH" | "HIGHEST";
   defaultStatusId: string;
   defaultAssigneeId?: string;
@@ -107,7 +107,7 @@ export interface CreateInboxDto {
   autoReplyEnabled?: boolean;
   autoReplyTemplate?: string;
   autoCreateTask?: boolean;
-  defaultTaskType?: "TASK" | "BUG" | "EPIC" | "STORY" | "SUBTASK";
+  defaultTaskType?: "TASK" | "HABIT" | "STUDY" | "WORK" | "LIFE" | "GOAL" | "EVENT" | "NOTE" | "PROJECT" | "SUBTASK";
   defaultPriority?: "LOWEST" | "LOW" | "MEDIUM" | "HIGH" | "HIGHEST";
   defaultStatusId?: string;
   defaultAssigneeId?: string;

@@ -74,9 +74,14 @@
   },
   "taskTypes": {
     "task": "任务",
-    "bug": "缺陷",
-    "epic": "史诗",
-    "story": "故事",
+    "habit": "习惯",
+    "study": "学习",
+    "work": "工作",
+    "life": "生活",
+    "goal": "目标",
+    "event": "日程",
+    "note": "便签",
+    "project": "项目",
     "subtask": "子任务"
   },
   "priorities": {

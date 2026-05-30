@@ -79,8 +79,6 @@ When creating or updating tasks, the `type` field MUST be one of:
 - PROJECT — multi-step comprehensive project
 - SUBTASK — child subtask of another task
 
-NEVER use STORY, BUG, or EPIC — these types no longer exist and will cause an error.
-
 ## Task Creation Workflow
 When user asks to create tasks, follow this exact sequence:
 1. list_workspaces → find workspace ID

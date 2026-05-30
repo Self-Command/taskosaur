@@ -1,8 +1,13 @@
+import { TaskType } from '@prisma/client';
+
 export interface MCPToolDefinition {
   name: string;
   description: string;
   input_schema: Record<string, any>;
 }
+
+const TASK_TYPES = Object.values(TaskType);
+const TASK_TYPES_STR = TASK_TYPES.join(',');
 
 export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
   // ========== WORKSPACE TOOLS ==========
@@ -251,7 +256,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
         statuses: { type: 'string', description: 'Comma-separated status IDs / 状态 ID' },
         types: {
           type: 'string',
-          description: 'Comma-separated: TASK,HABIT,STUDY,WORK,LIFE,GOAL,EVENT,NOTE,PROJECT,SUBTASK / 任务类型',
+          description: `Comma-separated: ${TASK_TYPES_STR} / 任务类型`,
         },
         search: { type: 'string', description: 'Search in title/description / 搜索标题/描述' },
         page: { type: 'number', description: 'Page number (default 1) / 页码' },
@@ -287,7 +292,7 @@ export const MCP_TOOL_DEFINITIONS: MCPToolDefinition[] = [
         statusId: { type: 'string', description: 'Status ID (UUID) / 状态 ID' },
         type: {
           type: 'string',
-          enum: ['TASK', 'HABIT', 'STUDY', 'WORK', 'LIFE', 'GOAL', 'EVENT', 'NOTE', 'PROJECT', 'SUBTASK'],
+          enum: TASK_TYPES,
           description: 'Task type / 任务类型',
         },
         priority: {

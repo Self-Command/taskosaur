@@ -59,23 +59,11 @@ export class TasksService {
     return tasks.map((task) => this.flattenTaskRelations(task));
   }
 
-  // Helper to get enum values safely
+  // Helper to get enum values safely — reads from Prisma-generated enum
   private getTaskType(value?: string): TaskType {
     if (!value) return TaskType.TASK;
-    // Map string values to enum explicitly
-    const typeMap: Record<string, TaskType> = {
-      TASK: TaskType.TASK,
-      HABIT: TaskType.HABIT,
-      STUDY: TaskType.STUDY,
-      WORK: TaskType.WORK,
-      LIFE: TaskType.LIFE,
-      GOAL: TaskType.GOAL,
-      EVENT: TaskType.EVENT,
-      NOTE: TaskType.NOTE,
-      PROJECT: TaskType.PROJECT,
-      SUBTASK: TaskType.SUBTASK,
-    };
-    return typeMap[value] || TaskType.TASK;
+    const upper = value.toUpperCase();
+    return Object.values(TaskType).includes(upper as TaskType) ? (upper as TaskType) : TaskType.TASK;
   }
 
   private getTaskPriority(value?: string): TaskPriority {
@@ -2184,18 +2172,10 @@ export class TasksService {
         break;
       }
       case GroupByField.TYPE: {
-        const TYPE_LABELS: Record<string, string> = {
-          TASK: 'Task',
-          HABIT: 'Habit',
-          STUDY: 'Study',
-          WORK: 'Work',
-          LIFE: 'Life',
-          GOAL: 'Goal',
-          EVENT: 'Event',
-          NOTE: 'Note',
-          PROJECT: 'Project',
-          SUBTASK: 'Sub-task',
-        };
+        const TYPE_LABELS: Record<string, string> = {};
+        for (const t of Object.values(TaskType)) {
+          TYPE_LABELS[t] = t.charAt(0) + t.slice(1).toLowerCase();
+        }
         const counts = await this.prisma.task.groupBy({
           by: ['type'],
           where: baseWhere,

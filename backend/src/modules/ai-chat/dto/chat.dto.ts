@@ -1,6 +1,7 @@
 import { IsString, IsNotEmpty, IsOptional, IsArray, ValidateNested, IsIn } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { TaskType } from '@prisma/client';
 
 export class ChatMessageDto {
   @ApiProperty({
@@ -171,7 +172,7 @@ export class GenerateDescriptionDto {
   title: string;
 
   @ApiPropertyOptional({
-    description: 'Task type (TASK, HABIT, STUDY, WORK, LIFE, GOAL, EVENT, NOTE, PROJECT, SUBTASK)',
+    description: `Task type (${Object.values(TaskType).join(', ')})`,
   })
   @IsOptional()
   @IsString()

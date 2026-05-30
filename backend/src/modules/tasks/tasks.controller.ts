@@ -31,6 +31,7 @@ import {
   NotificationPriority,
   NotificationType,
   TaskPriority,
+  TaskType,
   Role,
   ViewType,
 } from '@prisma/client';
@@ -256,7 +257,7 @@ export class TasksController {
         },
         type: {
           type: 'string',
-          enum: ['TASK', 'HABIT', 'STUDY', 'WORK', 'LIFE', 'GOAL', 'EVENT', 'NOTE', 'PROJECT', 'SUBTASK'],
+          enum: [...Object.values(TaskType)],
           example: 'TASK',
           description: 'Type of task',
         },

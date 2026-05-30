@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
+import { TaskType } from '@prisma/client';
 import slugify from 'slugify';
 import * as crypto from 'crypto';
 
@@ -83,6 +84,16 @@ export class ToolExecutor {
   }
   private safeNullable(v: unknown): any | null {
     return v === undefined || v === null || v === '' ? null : v;
+  }
+
+  /** Validate task type against Prisma enum. Returns null if valid, error message if invalid. */
+  private validateTaskType(type?: string): string | null {
+    if (!type) return null;
+    const upper = type.toUpperCase();
+    if (!Object.values(TaskType).includes(upper as TaskType)) {
+      return `Invalid task type "${type}". Valid types: ${Object.values(TaskType).join(', ')}`;
+    }
+    return null;
   }
 
   private catchError(tool: string, params: Record<string, any>, err: any) {
@@ -712,6 +723,8 @@ export class ToolExecutor {
       },
     });
     if (!project) return { success: false, error: `Project not found. Use list_projects first.` };
+    const typeErr = this.validateTaskType(params.type);
+    if (typeErr) return { success: false, error: typeErr };
     const taskNumber = project._count.tasks + 1;
     const slug = `${project.taskPrefix || 'TASK'}-${taskNumber}`;
     const task = await this.prisma.task.create({
@@ -762,6 +775,8 @@ export class ToolExecutor {
         if (e) return { success: false, error: e };
       }
     }
+    const typeErr = this.validateTaskType(params.type);
+    if (typeErr) return { success: false, error: typeErr };
     const { taskId, ...data } = params;
     const updateData: any = { updatedBy: userId };
     const strFields = [
